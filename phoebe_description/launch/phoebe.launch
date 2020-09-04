@@ -1,7 +1,15 @@
 <launch>
-	<param name="robot_description" textfile="$(find phoebe_description)/urdf/phoebe.urdf" />
+	<param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find phoebe_description)/urdf/phoebe.urdf.xacro'" />
 	<!--param name="use_gui" value="True"/-->
-	<node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
-	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
-	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find phoebe_description)/phoebe.rviz" required="true" />
+	<!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+   <!-- <param name="use_gui" value="TRUE"/>   -->
+   <param name="publish_default_positions" value="false"/>	
+
+  </node>
+
+  <!-- Combine joint values -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find phoebe_description)/launch/phoebe.rviz" required="true" />
 </launch>

@@ -1,5 +1,7 @@
 <launch>
-  <param name="phoebe/robot_description" textfile="$(find phoebe_description)/urdf/phoebe.urdf" />
+  <param name="robot_description"
+    command="$(find xacro)/xacro --inorder '$(find phoebe_description)/urdf/phoebe.urdf.xacro'" />
+
    <rosparam file= "$(find phoebe_description)/config/joint_names.yaml"/>
   <arg name="x" 							default="0.0" />
   <arg name="y" 							default="0.0" />

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="phoebe">
  <!-- <xacro:include filename="$(find cyton_gamma_1500_minicam_description)/cyton_gamma_1500_minicam_macros.urdf.xacro" /> -->
-  <xacro:include filename="$(find control_test)/urdf/cyton_gamma_1500_macros.urdf.xacro" />
+  <xacro:include filename="$(find cyton_gamma_1500_description)/urdf/cyton_gamma_1500_macros.urdf.xacro" />
   <xacro:include filename="$(find dp_ptu_46_description)/dp_ptu_46_macros.urdf.xacro" />
-  <xacro:include filename="$(find phoebe_description)/phoebe.gazebo" />
+  <xacro:include filename="$(find phoebe_description)/urdf/phoebe.gazebo" />
   
   <link name="base_footprint"/>
     
@@ -48,7 +48,7 @@
   <link name="wheel_rear">
     <inertial>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <mass value="0.25"/>
       <!-- inretia tensor for solid cylinder: m=0.5, h=0.05, r=0.095 -->
       <inertia ixx="1.232291667e-03" ixy="0" ixz="0" iyy="1.232291667e-03" iyz="0" izz="2.25625e-03"/>
@@ -56,7 +56,7 @@
     <visual>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.04" radius="0.02"/>
+        <cylinder length="0.1" radius="0.02"/>
       </geometry>
       <material name="blackish">
         <color rgba="0.2 0.2 0.2 1"/>
@@ -65,7 +65,7 @@
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.04" radius="0.02"/>
+        <cylinder length="0.1" radius="0.02"/>
       </geometry>
     </collision>
   </link>
@@ -83,7 +83,7 @@
   <link name="wheel_front">
     <inertial>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <mass value="0.25"/>
       
       <inertia ixx="1.232291667e-03" ixy="0" ixz="0" iyy="1.232291667e-03" iyz="0" izz="2.25625e-03"/>
@@ -91,14 +91,14 @@
     <visual>
      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
      <geometry>
-        <cylinder length="0.04" radius="0.02"/>
+        <cylinder length="0.1" radius="0.02"/>
       </geometry>
       <material name="blackish"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.04" radius="0.02"/>
+        <cylinder length="0.1" radius="0.02"/>
       </geometry>
     </collision>
   </link>
@@ -110,19 +110,21 @@
     <origin rpy="0 0 0" xyz="0.0 0.18 0.095"/>
     <!--axis xyz="0 0 1"/-->
 	<axis xyz="0 1 0"/>
+	<limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
   </joint>
 
   <link name="wheel_left">
     <inertial>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <mass value="0.5"/>
       <!-- inretia tensor for solid cylinder: m=0.5, h=0.05, r=0.095 -->
       <inertia ixx="1.232291667e-03" ixy="0" ixz="0" iyy="1.232291667e-03" iyz="0" izz="2.25625e-03"/>
     </inertial>
     <visual>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.05" radius="0.095"/>
       </geometry>
@@ -146,18 +148,20 @@
 	<origin rpy="0 0 0" xyz="0.0 -0.18 0.095"/>
     <!--axis xyz="0 0 1"/-->
 	<axis xyz="0 1 0"/>
+	<limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
   </joint>
   <link name="wheel_right">
     <inertial>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <mass value="0.5"/>
       <!-- inretia tensor for solid cylinder: m=0.5, h=0.05, r=0.095 -->
       <inertia ixx="1.232291667e-03" ixy="0" ixz="0" iyy="1.232291667e-03" iyz="0" izz="2.25625e-03"/>
     </inertial>
     <visual>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.05" radius="0.095"/>
       </geometry>
@@ -165,7 +169,7 @@
     </visual>
     <collision>
       <!--origin rpy="0 0 0" xyz="0 0 0"/-->
-	  <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
+	  <origin rpy="0 1.5708 1.5708" xyz="0 0 0"/>
       <geometry>
         <cylinder length="0.05" radius="0.095"/>
       </geometry>
@@ -327,5 +331,33 @@
       <material name="blackish" />
     </visual>
   </link>
+  
+  
+  <joint name = "xtion_optical_frame_joint" type="fixed">
+    <parent link="xtion_link"/>
+    <child link="xtion_optical_frame"/>
+    <origin rpy="-1.57 0 -1.57" xyz="0 0 0"/>  
+  </joint>
+  
+  <link name="xtion_optical_frame" >
+ </link>
+
+  <joint name = "left_optical_frame_joint" type="fixed">
+    <parent link="left_arm_camera"/>
+    <child link="left_optical_frame"/>
+    <origin rpy="0 -1.5708  0" xyz="0 0 0"/>  
+  </joint>
+  
+  <link name="left_optical_frame" >
+ </link> 
+
+  <joint name = "right_optical_frame_joint" type="fixed">
+    <parent link="right_arm_camera"/>
+    <child link="right_optical_frame"/>
+    <origin rpy="0  -1.5708 3.14" xyz="0 0 0"/>  
+  </joint>
+  
+  <link name="right_optical_frame" >
+ </link>   
 
 </robot>

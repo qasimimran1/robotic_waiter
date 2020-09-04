@@ -31,15 +31,17 @@
       </visual>
 	  
 	  <inertial>
-      <mass value="100.0"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <inertia ixx="1.1027" iyy="1.1027" izz="1.1027"
-                ixy="0" ixz="0" iyz="0"/>
-    </inertial>
+		  <origin rpy="0 0 0" xyz="0.0 0 0"/>
+		  <mass value="0.478571"/>
+		  <!-- inretia tensor for solid cuboid: m=0.478571, w=0.177, h=0.074, d=0.150 -->
+		  <inertia ixx="1.47e-03" ixy="0" ixz="0" iyy="2.15e-03" iyz="0" izz="1.12e-03"/>
+	  </inertial>
       <collision>
-        <origin xyz="0 0.0115 0.047"/>
+        <!--origin xyz="0 0.0115 0.047"/-->
+		<origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <box size="0.154 0.177 0.094"/>
+		  <!--box size="0.154 0.177 0.094"/-->
+          <box size="0.154 0.16 0.075"/>
         </geometry>
       </collision>
     </link>
@@ -60,17 +62,18 @@
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0.0 0.069 0.0587"/>
+        <origin xyz="0.0 0.0 0.0"/>
         <geometry>
-          <box size="0.09829 0.18143 0.08392"/>
+          <!--box size="0.09829 0.18143 0.08392"/-->
+		  <box size="0.068 0.10 0.065"/>
         </geometry>
       </collision>
 	  <inertial>
-        <mass value="50.0"/>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-        <inertia ixx=".1027" iyy=".1027" izz=".1027"
-                ixy="0" ixz="0" iyz="0"/>
-      </inertial>
+		  <origin rpy="0 0 0" xyz="0 0 0.12"/>
+		  <mass value="0.468571"/>
+		  <!-- inretia tensor for solid cylinder: m=0.468571, h=0.09248, r=0.044737 -->
+		  <inertia ixx="4.7e-04" ixy="0" ixz="0" iyy="5.7e-04" iyz="0" izz="5.7e-04"/>
+       </inertial>
 	  
     </link>
 
@@ -109,10 +112,11 @@
       </geometry>
     </collision>
     <inertial>
-      <mass value="20.0"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <inertia ixx=".0827" iyy=".0827" izz=".0827"
-                ixy="0" ixz="0" iyz="0"/>
+      <!--origin rpy="0 0 0" xyz="-0.0214 0 0.117"/-->
+	  <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="0.4285714"/>
+      <!-- inretia tensor for solid cylinder: m=0.4285714, h=0.09248, r=0.04204 -->
+      <inertia ixx="4.9e-04" ixy="0" ixz="0" iyy="3.8e-04" iyz="0" izz="4.9e-04"/>
     </inertial>
     </link>
 
@@ -150,11 +154,12 @@
 		</geometry>
 	  </collision>
       <inertial>
-		<mass value="10.0"/>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<inertia ixx=".0627" iyy=".0627" izz=".0627"
-                ixy="0" ixz="0" iyz="0"/>
-      </inertial>	  
+		  <!--origin rpy="0 0 0" xyz="-0.002 0.021 0.1135"/-->
+		  <origin rpy="0 0 0" xyz="0 0 0"/>
+		  <mass value="0.408571"/>
+		  <!-- inretia tensor for solid cylinder: m=0.408571, h=0.084081, r=0.036785 -->
+		  <inertia ixx="2.8e-04" ixy="0" ixz="0" iyy="3.8e-04" iyz="0" izz="3.8e-04"/>
+       </inertial>  
     </link>
 	
 	
@@ -191,11 +196,12 @@
       </geometry>
       </collision>
       <inertial>
-		<mass value="10.0"/>
-		<origin rpy="0 0 0" xyz="0 0 0"/>
-		<inertia ixx=".0327" iyy=".0327" izz=".0327"
-                ixy="0" ixz="0" iyz="0"/>
-      </inertial>
+		  <origin rpy="0 0 0" xyz="0 0 0"/>
+		  <!--origin rpy="0 0 0" xyz="-0.0176 0.001 0.095"/-->
+		  <mass value="0.388671"/>
+		  <!-- inretia tensor for solid cylinder: m=0.388671, h=0.06705, r=0.028975 -->
+		  <inertia ixx="2.3e-04" ixy="0" ixz="0" iyy="1.6e-04" iyz="0" izz="2.3e-04"/>
+       </inertial>
     </link>
 	
 	
@@ -231,10 +237,11 @@
 		</geometry>
 		</collision>
 		<inertial>
-			<mass value="10.0"/>
-			<origin rpy="0 0 0" xyz="0 0 0"/>
-			<inertia ixx=".0227" iyy=".0227" izz=".0227"
-                ixy="0" ixz="0" iyz="0"/>
+		  <!--origin rpy="0 0 0" xyz="0 0.018 0.073"/-->
+		  <origin rpy="0 0 0" xyz="0 0 0"/>
+		  <mass value="0.368871"/>
+		  <!-- inretia tensor for solid cylinder: m=0.368871, h=0.043602, r=0.024071 -->
+		  <inertia ixx="1.0686e-04" ixy="0" ixz="0" iyy="1.1187e-04" iyz="0" izz="1.1187e-04"/>
 		</inertial>
     </link>
 	
@@ -270,10 +277,13 @@
 		</geometry>
 		</collision>
 		<inertial>
-			<mass value="10.0"/>
-			<origin rpy="0 0 0" xyz="0 0 0"/>
-			<inertia ixx=".0127" iyy=".0127" izz=".0127"
-                ixy="0" ixz="0" iyz="0"/>
+		  <!--origin rpy="0 0 0" xyz="-0.027 -0.0005 0.028"/-->
+		  <origin rpy="0 0 0" xyz="0 0 0"/>
+		  <!-- <mass value="0.008"/> -->
+	  <mass value="0.2"/>
+		<!-- inretia tensor for solid cuboid: m=0.008, h=0.045602, w=0.0218, d=0.005 -->
+		<!-- <inertia ixx="3.3349e-07" ixy="0" ixz="0" iyy="1.403e-06" iyz="0" izz="1.70319e-06"/> -->
+		<inertia ixx="8.337e-06" ixy="0" ixz="0" iyy="3.507e-05" iyz="0" izz="4.258e-05"/>
 		</inertial>
     </link>
 	<transmission name="${prefix}tran6">
@@ -311,10 +321,11 @@
 		</geometry>
 	  </collision>
 	  <inertial>
-			<mass value="10.0"/>
-			<origin rpy="0 0 0" xyz="0 0 0"/>
-			<inertia ixx=".0027" iyy=".0027" izz=".0027"
-                ixy="0" ixz="0" iyz="0"/>
+		  <!--origin rpy="0 0 0" xyz="0 0 0.029"/-->
+		  <origin rpy="0 0 0" xyz="0 0 0"/>
+		  <mass value="0.38"/>
+		  <!-- inretia tensor for solid cylinder: m=0.38, h=0.095, r=0.027975 -->
+		  <inertia ixx="3.6e-04" ixy="0" ixz="0" iyy="3.6e-04" iyz="0" izz="1.487e-04"/>
 	  </inertial>
     </link>
 	
@@ -345,9 +356,10 @@
       </visual>
       <collision>
         <!--origin xyz="-0.0167 0.0172 0.7254"/-->
-		<origin xyz="0.0 0.008 0.04"/>
+		<origin xyz="0.0 0.007 0.02"/>
         <geometry>
-          <box size="0.015 0.0229 0.0475"/>
+          <!-- <box size="0.015 0.0229 0.0475"/> -->
+			<box size="0.010 0.02 0.031"/>
         </geometry>
       </collision>
 	  <inertial>
@@ -387,9 +399,10 @@
       </visual>
      <collision>
 		<!--origin xyz="0.0132 0.0172 0.7254"/-->
-		<origin xyz="0.0 0.008 0.04"/>
+		<origin xyz="0.0 0.007 0.02"/>
 		<geometry>
-			<box size="0.015 0.0229 0.0475"/>
+			<!-- <box size="0.015 0.0229 0.0475"/> -->
+			<box size="0.010 0.020 0.031"/>
 		</geometry>
 		</collision>
 	  <inertial>
@@ -400,7 +413,7 @@
 		<inertia ixx="4.5064e-06" ixy="0" ixz="0" iyy="3.6723e-06" iyz="0" izz="2.0929e-06"/>
 		</inertial>
     </link>
-	
+	<!--
 	<transmission name="${prefix}tran9">
 		<type>transmission_interface/SimpleTransmission</type>
 		<joint name="${prefix}gripper_joint2">
@@ -410,6 +423,7 @@
 			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
 		</actuator>
 	</transmission>
+      -->
 
     <xacro:if value="${virtual_ee}"> <!-- virtual end-effector -->
       <joint name="${prefix}virtual_endeffector_joint" type="fixed">
@@ -428,8 +442,74 @@
             <color rgba="0.7 0.7 0.7 0.8" />
           </material>
         </visual>
+		<inertial>
+			<origin rpy="0 0 0" xyz="0 0 0"/>
+			<mass value="0.0016"/>
+			<!-- inretia tensor for solid sphere: m=0.0016, r=0.0022 -->
+			<inertia ixx="3.0976e-09" ixy="0" ixz="0" iyy="3.0976e-09" iyz="0" izz="3.0976e-09"/>
+		</inertial>
       </link>
     </xacro:if>
+	<joint name="${prefix}camera_bracket_joint" type="fixed">
+      <parent link="${prefix}wrist_roll" />
+      <child link="${prefix}camera_bracket" />
+      <origin xyz="-0.0008 -0.028 0.0435" rpy="0 0 0" />
+    </joint>
+
+    <link name="${prefix}camera_bracket">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://cyton_gamma_1500_minicam_description/meshes/cam_bracket.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="0.03512 0.04821 0.07179"/>
+        </geometry>
+      </collision>
+	  <inertial>
+		<origin rpy="0.95 0 0" xyz="0 -0.01 -0.012"/>
+		<mass value="0.052"/>
+		<!-- inretia tensor for solid cuboid: m=0.052, h=0.071, w=0.028, d=0.0086 -->
+		<inertia ixx="2.2165e-05" ixy="0" ixz="0" iyy="3.7178e-06" iyz="0" izz="2.5242e-05"/>
+    </inertial>
+    </link>
+
+    <joint name="${prefix}camera_joint" type="fixed">
+      <parent link="${prefix}camera_bracket" />
+      <child link="${prefix}camera" />
+      <origin xyz="0.0 -0.028 -0.005" rpy="-0.625 0 0" />
+    </joint>
+
+    <link name="${prefix}camera">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.031 0.028 0.063" />
+        </geometry>
+        <material name="blackish">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.036 0.045 0.063" />
+        </geometry>
+      </collision>
+	  <inertial>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+		<mass value="0.085"/>
+		<!-- inretia tensor for solid cuboid: m=0.085, h=0.065, w=0.024, d=0.024 -->
+		<inertia ixx="3.4007e-05" ixy="0" ixz="0" iyy="3.4007e-05" iyz="0" izz="8.16e-06"/>
+    </inertial>
+	  
+	  
+    </link>
+	
+	
   </xacro:macro>
 
 </robot>

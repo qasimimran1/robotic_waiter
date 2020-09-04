@@ -113,7 +113,9 @@
 	  <publishTf>1</publishTf>
 	  <wheelAcceleration>1</wheelAcceleration>
 	  <wheelTorque>5</wheelTorque>
-	  <odometrySource>world</odometrySource>  
+	  <rosDebugLevel>na</rosDebugLevel> <!-- warn -->
+      <odometrySource>0</odometrySource> <!-- warn -->
+	  
 	  
     </plugin>
   </gazebo>
@@ -121,7 +123,7 @@
   
  
  
-  <!-- <transmission name="wheel_left_joint_trans">
+  <transmission name="wheel_left_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="wheel_left_joint">
       <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
@@ -139,7 +141,7 @@
     <actuator name="wheel_right_joint_motor">
       <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
     </actuator>
-  </transmission> -->
+  </transmission>
   
   
   <transmission name="ptu_pan_joint_trans">
@@ -208,57 +210,57 @@
   
   <!-- Gazebo  Cameras --> 
   
-  <!-- <gazebo reference="bumblebee_link"> -->
-    <!-- <sensor name="gazebo_stereo_camera" type="multicamera"> -->
-      <!-- <update_rate>25.0</update_rate> -->
-      <!-- <camera name="left"> -->
+  <gazebo reference="bumblebee_link">
+    <sensor name="gazebo_stereo_camera" type="multicamera">
+      <update_rate>25.0</update_rate>
+      <camera name="left">
 	    <!-- <pose>0 0.065 0 0 0 0</pose> -->
-        <!-- <horizontal_fov>1.69297</horizontal_fov> -->
-        <!-- <image> -->
-          <!-- <width>640 </width> -->
-          <!-- <height> 480</height> -->
-          <!-- <format>B8G8R8</format> -->
-        <!-- </image> -->
-        <!-- <clip> -->
-          <!-- <near>0.01</near> -->
-          <!-- <far>100</far> -->
-        <!-- </clip> -->
-      <!-- </camera> -->
-      <!-- <camera name="right"> -->
+        <horizontal_fov>1.69297</horizontal_fov>
+        <image>
+          <width>640 </width>
+          <height> 480</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>100</far>
+        </clip>
+      </camera>
+      <camera name="right">
         <!-- <pose>0 -0.065 0 0 0 0</pose> -->
         <!-- the pose is wrt /stereo_link which is the parent of stereo_optical_frame -->
-        <!-- <horizontal_fov>1.69297</horizontal_fov> -->
-        <!-- <image> -->
-          <!-- <width>640 </width> -->
-          <!-- <height> 480</height> -->
-          <!-- <format>B8G8R8</format> -->
-        <!-- </image> -->
-        <!-- <clip> -->
-          <!-- <near>0.01</near> -->
-          <!-- <far>10</far> -->
-        <!-- </clip> -->
-      <!-- </camera> -->
-      <!-- <plugin filename="libgazebo_ros_multicamera.so" name="stereo_camera_controller"> -->
-        <!-- <alwaysOn>true</alwaysOn> -->
-        <!-- <updateRate>0.0</updateRate> -->
-        <!-- <cameraName>bumblebee</cameraName> -->
-        <!-- <imageTopicName>/bumblebee/image</imageTopicName> -->
-        <!-- <cameraInfoTopicName>/bumblebee/camera_info</cameraInfoTopicName> -->
-        <!-- <frameName>bumblebee_link</frameName> -->
-        <!-- <hackBaseline>0.0</hackBaseline> -->
-        <!-- <CxPrime>0</CxPrime> -->
-        <!-- <Cx>0</Cx> -->
-        <!-- <Cy>0</Cy> -->
-        <!-- <focalLength>283.0</focalLength> -->
-        <!-- image_width / (2*tan(hfov_radian /2)) -->
-        <!-- <distortionK1>0.0</distortionK1> -->
-        <!-- <distortionK2>0.0</distortionK2> -->
-        <!-- <distortionK3>0.0</distortionK3> -->
-        <!-- <distortionT1>0.0</distortionT1> -->
-        <!-- <distortionT2>0.0</distortionT2> -->
-      <!-- </plugin> -->
-    <!-- </sensor> -->
-   <!-- </gazebo> -->
+        <horizontal_fov>1.69297</horizontal_fov>
+        <image>
+          <width>640 </width>
+          <height> 480</height>
+          <format>B8G8R8</format>
+        </image>
+        <clip>
+          <near>0.01</near>
+          <far>10</far>
+        </clip>
+      </camera>
+      <plugin filename="libgazebo_ros_multicamera.so" name="stereo_camera_controller">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>bumblebee</cameraName>
+        <imageTopicName>/bumblebee/image</imageTopicName>
+        <cameraInfoTopicName>/bumblebee/camera_info</cameraInfoTopicName>
+        <frameName>bumblebee_link</frameName>
+        <hackBaseline>0.0</hackBaseline>
+        <CxPrime>0</CxPrime>
+        <Cx>0</Cx>
+        <Cy>0</Cy>
+        <focalLength>0</focalLength>
+        <!-- image_width /283.0 (2*tan(hfov_radian /2)) -->
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+   </gazebo>
   
   
   
@@ -309,7 +311,7 @@
   <gazebo reference="left_optical_frame">
     <sensor name="left_arm_camera" type="camera">
       <update_rate>30.0</update_rate>
-	  <visualize>true</visualize>
+	  <!-- <visualize>true</visualize> -->
 	  <!-- <pose> 0 0 0 0 -1.5708 0 </pose > -->
       <camera name="left_arm_camera">
 	  <!-- <pose> 0 0 0 0 -1.5708 0 </pose > -->
@@ -339,7 +341,7 @@
         <imageTopicName>/left_arm_camera/image_raw</imageTopicName>
         <cameraInfoTopicName>/left_arm_camera/camera_info</cameraInfoTopicName>
         <frameName>left_optical_frame</frameName>
-        <hackBaseline>0.02</hackBaseline>
+        <hackBaseline>0.07</hackBaseline>
         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
         <distortionK3>0.0</distortionK3>
@@ -353,7 +355,7 @@
   <gazebo reference="right_optical_frame">
     <sensor name="right_arm_camera" type="camera">
       <update_rate>30.0</update_rate>
-	  <visualize>true</visualize>
+	  <!-- <visualize>true</visualize> -->
 	  <!-- <pose> 0 0 0  0 -1.5708 3.1415 </pose > -->
       <camera name="right_arm_camera">
 	  <!-- <pose> 0 0 0  0 -1.5708 3.1415 </pose > -->
@@ -383,7 +385,7 @@
         <imageTopicName>/right_arm_camera/image_raw</imageTopicName>
         <cameraInfoTopicName>/right_arm_camera/camera_info</cameraInfoTopicName>
         <frameName>right_optical_frame</frameName>
-        <hackBaseline>0.02</hackBaseline>
+        <hackBaseline>0.07</hackBaseline>
         <distortionK1>0.0</distortionK1>
         <distortionK2>0.0</distortionK2>
         <distortionK3>0.0</distortionK3>

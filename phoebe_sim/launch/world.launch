@@ -19,6 +19,19 @@
   
   <!-- Load PIDs for the joints -->
   <rosparam file="$(find phoebe_sim)/config/pid_gains.yaml" command="load" />
+
+   <!-- Load joint controller configurations from YAML file to parameter server -->
+   <!-- <rosparam file="$(find phoebe_sim)/config/controllers_phoebe.yaml" command="load"/> -->
+
+   <!-- load the controllers -->
+   <!-- <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	 output="screen"  
+			args="	joint_state_controller
+							dual_arm_controller			   
+							left_gripper_controller
+							right_gripper_controller
+							ptu_controller
+							wheels_controller"/> -->
 	
   <!-- Load the URDF into the ROS Parameter Server -->  
   <param name="robot_description" 
@@ -27,6 +40,9 @@
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-urdf -model phoebe -param robot_description"/>
+
+  <!-- Combine joint values -->
+  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" respawn="false" output="screen"/> -->
 
   <!-- ros_control rrbot launch file -->
   <!--include file="$(find rrbot_control)/launch/rrbot_control.launch" /-->

@@ -4,7 +4,7 @@
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
 		<!-- <publishTf>1</publishTf> -->
-		<robotNamespace>/</robotNamespace>
+		<robotNamespace>/phoebe</robotNamespace>
 		<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
 		<legacyModeNS>true</legacyModeNS>
 	
@@ -94,7 +94,7 @@
   </gazebo> 
   
   
-  <gazebo>
+  <!-- <gazebo>
     <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
       <alwaysOn>true</alwaysOn>
       <updateRate>50</updateRate>
@@ -102,7 +102,7 @@
       <rightJoint>wheel_right_joint</rightJoint>
       <wheelSeparation>0.31</wheelSeparation>
       <wheelDiameter>0.19</wheelDiameter>      
-      <commandTopic>cmd_vel</commandTopic>
+      <commandTopic>/phoebe/cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>base_footprint</robotBaseFrame>
@@ -113,12 +113,10 @@
 	  <publishTf>1</publishTf>
 	  <wheelAcceleration>1</wheelAcceleration>
 	  <wheelTorque>5</wheelTorque>
-	  <rosDebugLevel>na</rosDebugLevel> <!-- warn -->
-      <odometrySource>0</odometrySource> <!-- warn -->
-	  
-	  
+	  <rosDebugLevel>na</rosDebugLevel> 
+      <odometrySource>0</odometrySource> 
     </plugin>
-  </gazebo>
+  </gazebo> -->
   
   
  
@@ -130,6 +128,7 @@
     </joint>
     <actuator name="wheel_left_joint_motor">
       <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+	  <mechanicalReduction>1.0</mechanicalReduction>
     </actuator>
   </transmission>
   
@@ -140,6 +139,7 @@
     </joint>
     <actuator name="wheel_right_joint_motor">
       <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+	  <mechanicalReduction>1.0</mechanicalReduction>
     </actuator>
   </transmission>
   
@@ -165,6 +165,7 @@
     </joint>
     <actuator name="ptu_tilt_joint_motor">
       <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+	  <mechanicalReduction>1.0</mechanicalReduction>
     </actuator>
   </transmission>
   

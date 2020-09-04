@@ -5,7 +5,7 @@
 
   <!-- load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen"  
+	output="screen"  ns="/phoebe"
 			args="	joint_state_controller
 							dual_arm_controller			   
 							left_gripper_controller
@@ -13,9 +13,9 @@
 							ptu_controller"/>
 
   <!-- convert joint states to TF transforms for rviz, etc -->
-  <!-- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">
-    
-  </node> -->
+    <remap from="/joint_states" to="/phoebe/joint_states" />   
+  </node>
 
 </launch>

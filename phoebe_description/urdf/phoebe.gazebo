@@ -1,0 +1,269 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+		<publishTf>1</publishTf>
+		<robotNamespace>/</robotNamespace>
+		<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+		<legacyModeNS>true</legacyModeNS>
+	
+	</plugin>
+	
+	<plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so"> 
+      <updateRate>50</updateRate>
+    </plugin>    
+  </gazebo>
+  
+  <gazebo>
+   <plugin name="right_finger_mimic_joint_plugin" filename="libroboticsgroup_gazebo_mimic_joint_plugin.so">
+     <joint>right_arm_gripper_joint</joint>
+	 <mimicJoint>right_arm_gripper_joint2</mimicJoint>
+	 <multiplier>-1</multiplier>
+	 <maxEffort>100.0</maxEffort> 
+   </plugin>
+  </gazebo>
+  
+  
+  <gazebo>
+   <plugin name="left_finger_mimic_joint_plugin" filename="libroboticsgroup_gazebo_mimic_joint_plugin.so">
+     <joint>left_arm_gripper_joint</joint>
+	 <mimicJoint>left_arm_gripper_joint2</mimicJoint>
+	 <multiplier>-1</multiplier>
+	 <maxEffort>100.0</maxEffort> 
+   </plugin>
+  </gazebo>
+  
+  
+  <gazebo reference="base_link">
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <mu1>1.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Grey</material>
+  </gazebo>
+  
+  <gazebo reference="left_arm_base_link">
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <mu1>1.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+  
+  
+  <gazebo reference="right_arm_base_link">
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <mu1>1.0</mu1>
+    <mu2>10.0</mu2>
+    <material>Gazebo/Black</material>
+  </gazebo>
+  
+  
+  
+  <gazebo reference="wheel_left">
+    <mu1 value="220.0"/>
+    <mu2 value="100.0"/>
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="wheel_right">
+    <mu1 value="220.0"/>
+    <mu2 value="100.0"/>
+    <kp>1e+13</kp>
+    <kd>1</kd>
+    <material>Gazebo/White</material>
+  </gazebo>
+  <!-- <gazebo>
+    <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50</updateRate>
+      <leftJoint>wheel_left_joint</leftJoint>
+      <rightJoint>wheel_right_joint</rightJoint>
+      <wheelSeparation>0.31</wheelSeparation>
+      <wheelDiameter>0.19</wheelDiameter>
+      <torque>0.1</torque>
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
+      <legacyMode>false</legacyMode>
+	  <publishWheelTF>true</publishWheelTF>
+	  <publishOdomTF>true</publishOdomTF>
+	  <publishWheelJointState>true</publishWheelJointState>
+	  <publishTf>1</publishTf>
+	  <wheelAcceleration>1</wheelAcceleration>
+	  <wheelTorque>5</wheelTorque>
+	  <odometrySource>world</odometrySource>
+	  
+	  
+    </plugin>
+  </gazebo> -->
+  
+  <!--
+  <gazebo reference="camera">
+    <material>Gazebo/Green</material>
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.3962634</horizontal_fov>
+        <image>
+          <width>800</width>
+          <height>800</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>mybot/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+  -->
+  <transmission name="wheel_left_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wheel_left_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wheel_left_joint_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+  
+  <transmission name="wheel_right_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wheel_right_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wheel_right_joint_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+  
+  
+  <transmission name="ptu_pan_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="ptu_pan_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="ptu_pan_joint_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+	<actuator name="ptu_pan_joint_motor">
+      <mechanicalReduction>1.0</mechanicalReduction>
+    </actuator>
+  </transmission>
+  
+  
+  <transmission name="ptu_tilt_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="ptu_tilt_joint">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="ptu_tilt_joint_motor">
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+  
+  
+  
+  <gazebo reference="xtion_link">
+  <sensor name="xtion_link_camera" type="depth">
+    <update_rate>30</update_rate>
+    <camera>
+      <horizontal_fov>1.01229096</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <format>R8G8B8</format>
+      </image>
+      <clip>
+        <near>0.08</near>
+        <far>3.5</far>
+      </clip>
+    </camera>
+    <plugin name="xtion_link_controller" filename="libgazebo_ros_openni_kinect.so">
+      <baseline>0.2</baseline>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>25.0</updateRate>
+      <cameraName>xtion_ir</cameraName>
+      <imageTopicName>/phoebe/color/image_raw</imageTopicName>
+      <cameraInfoTopicName>/phoebe/color/camera_info</cameraInfoTopicName>
+      <depthImageTopicName>/phoebe/depth/image_raw</depthImageTopicName>
+      <depthImageInfoTopicName>/phoebe/depth/camera_info</depthImageInfoTopicName>
+      <pointCloudTopicName>/phoebe/depth/points</pointCloudTopicName>
+      <frameName>xtion_link</frameName>
+      <pointCloudCutoff>0.5</pointCloudCutoff>
+      <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+      <distortionK1>0.00000001</distortionK1>
+      <distortionK2>0.00000001</distortionK2>
+      <distortionK3>0.00000001</distortionK3>
+      <distortionT1>0.00000001</distortionT1>
+      <distortionT2>0.00000001</distortionT2>
+      <CxPrime>0</CxPrime>
+      <Cx>0</Cx>
+      <Cy>0</Cy>
+      <focalLength>0</focalLength>
+      <hackBaseline>0</hackBaseline>
+    </plugin>
+  </sensor>
+</gazebo>
+
+
+<!-- hokuyo -->
+  <gazebo reference="hokuyo_link">
+	<material>Gazebo/Black</material>
+    <sensor type="ray" name="head_hokuyo_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>20</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.570796</min_angle>
+            <max_angle>1.570796</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise parameters based on published spec for Hokuyo laser
+               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. -->
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+        <topicName>/phoebe/laser/scan</topicName>
+        <frameName>hokuyo_link</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+  
+  
+
+
+</robot>

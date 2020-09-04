@@ -1,0 +1,185 @@
+# Note: You MUST load these PID parameters for all joints that are using the
+# PositionJointInterface, otherwise the arm + gripper will act like a giant
+# parachute, counteracting gravity, and causing some of the wheels to lose
+# contact with the ground, so the robot won't be able to properly navigate. See
+# https://github.com/ros-simulation/gazebo_ros_pkgs/issues/602
+gazebo_ros_control:
+  pid_gains:
+    # these gains are used by the gazebo_ros_control plugin
+ 
+# Left Arm 
+    left_arm_shoulder_roll_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+    left_arm_shoulder_pitch_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    left_arm_shoulder_yaw_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    left_arm_elbow_pitch_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    left_arm_elbow_yaw_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+
+    left_arm_wrist_pitch_joint:
+      p: 8.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+    left_arm_wrist_roll_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+# Right Arm      
+    right_arm_shoulder_roll_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+    right_arm_shoulder_pitch_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    right_arm_shoulder_yaw_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    right_arm_elbow_pitch_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    right_arm_elbow_yaw_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+    right_arm_wrist_pitch_joint:
+      p: 8.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+    right_arm_wrist_roll_joint:
+      p: 80.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+ 
+# # Grippers 
+    left_arm_gripper_joint:
+      p: 100 #20000.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    left_arm_gripper_joint2:
+      p: 100 #20000.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    right_arm_gripper_joint:
+      p: 100.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    right_arm_gripper_joint2:
+      p: 100.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+# # PTU    
+    ptu_pan_joint:
+      p: 100.0
+      i: 0.01
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    ptu_tilt_joint:
+      p: 100.0
+      i: 0.001
+      d: -0.001
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    wheel_right_joint:
+      p: 1.0
+      i: 0.0
+      d: 0.0
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+      
+    wheel_left_joint:
+      p: 1.0
+      i: 0.00
+      d: 0.00
+      i_clamp: 1
+      antiwindup: false
+      publish_state: true
+

@@ -1,0 +1,4 @@
+<launch>
+        <!-- Generates the URDF, useful for incorporating the unit into your own robot description -->
+        <node name="xacro" pkg="xacro" type="xacro" args="-o $(find dp_ptu_46_description)/dp_ptu_46.urdf $(find dp_ptu_46_description)/dp_ptu_46.urdf.xacro" />
+</launch>

@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="cyton_gamma_1500_minicam">
+  <xacro:include filename="$(find cyton_gamma_1500_description)/cyton_gamma_1500_macros.urdf.xacro"/>
+
+  <xacro:macro name="cyton_gamma_1500_minicam" params="prefix virtual_ee">
+    <xacro:cyton_gamma_1500 prefix="${prefix}" virtual_ee="${virtual_ee}"/>
+    <joint name="${prefix}camera_bracket_joint" type="fixed">
+      <parent link="${prefix}wrist_roll" />
+      <child link="${prefix}camera_bracket" />
+      <origin xyz="-0.0008 -0.028 0.0435" rpy="0 0 0" />
+    </joint>
+
+    <link name="${prefix}camera_bracket">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://cyton_gamma_1500_minicam_description/meshes/cam_bracket.dae"/>
+        </geometry>
+      </visual>
+      <!--collision>
+        <origin xyz="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="0.03512 0.04821 0.07179"/>
+        </geometry>
+      </collision-->
+    </link>
+
+    <joint name="${prefix}camera_joint" type="fixed">
+      <parent link="${prefix}camera_bracket" />
+      <child link="${prefix}camera" />
+      <origin xyz="0.0 -0.028 -0.005" rpy="-0.625 0 0" />
+    </joint>
+
+    <link name="${prefix}camera">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.031 0.028 0.063" />
+        </geometry>
+        <material name="blackish">
+          <color rgba="0.2 0.2 0.2 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.036 0.045 0.063" />
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+</robot>

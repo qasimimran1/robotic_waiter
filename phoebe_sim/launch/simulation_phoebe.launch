@@ -1,0 +1,9 @@
+<launch>
+
+  <include file="$(find phoebe_sim)/launch/phoebe_gaz.launch"/>
+  <include file="$(find phoebe_newmoveit_config)/launch/move_group.launch"/>
+  <include file="$(find phoebe_newmoveit_config)/launch/moveit_rviz.launch">
+    <arg name="config" value="True"/>
+  </include> 
+
+</launch>

@@ -1,0 +1,59 @@
+<launch>
+
+
+  <param name="robot_description" command="cat $(find phoebe_description)/phoebe.urdf" />
+
+  <rosparam file="$(find phoebe_description)/config/phoebe_control.yaml" command="load"/>
+
+   <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+        args="-param robot_description -urdf -model phoebe" />
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  
+
+  <!-- load the controllers -->
+  <node name="controller_spawner"
+        pkg="controller_manager"
+        type="spawner"
+        respawn="false"
+        output="screen"
+        ns="/phoebe"
+        args="right_arm_shoulder_roll_controller
+		right_arm_shoulder_pitch_controller
+		right_arm_shoulder_yaw_controller
+		right_arm_elbow_pitch_controller
+		right_arm_elbow_yaw_controller
+		right_arm_wrist_pitch_controller
+		right_arm_wrist_roll_controller
+		right_arm_gripper_joint_controller
+		right_arm_gripper_joint2_controller
+		
+		left_arm_shoulder_roll_controller
+		left_arm_shoulder_pitch_controller
+		left_arm_shoulder_yaw_controller
+		left_arm_elbow_pitch_controller
+		left_arm_elbow_yaw_controller
+		left_arm_wrist_pitch_controller
+		left_arm_wrist_roll_controller
+		left_arm_gripper_joint_controller
+		left_arm_gripper_joint2_controller
+		
+		wheel_left_joint_controller
+		wheel_right_joint_controller
+		
+		ptu_pan_joint_controller
+		ptu_tilt_joint_controller
+		"		
+		
+		/>
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="/joint_states" to="/phoebe/joint_states" />
+  </node>
+
+</launch>
+

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.6">
+  <world name="default">
+
+    <!-- Moon Gravity-->
+    <gravity>0 0 -9.81</gravity>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://simple_voxel_room</uri>
+      <pose>0 0 -0.157637 0 0 0</pose>
+    </include>
+
+    <include>
+        <uri>model://lowpoly_human</uri>
+        <pose>2.9 0.46 0.05 0 0 3.14</pose>
+    </include>
+
+
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>35.652832</latitude_deg>
+      <longitude_deg>139.839478</longitude_deg>
+      <elevation>0.0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+
+
+    <light name='user_point_light_0' type='point'>
+      <pose frame=''>5.3 -3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <cast_shadows>0</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <light name='user_point_light_1' type='point'>
+      <pose frame=''>2.0 -3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+    <light name='user_point_light_2' type='point'>
+      <pose frame=''>-2.0 -3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+
+    <light name='user_point_light_3' type='point'>
+      <pose frame=''>-5.3 -3.3 4.0 0 -0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+
+    <light name='user_point_light_4' type='point'>
+      <pose frame=''>5.3 3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+    <light name='user_point_light_5' type='point'>
+      <pose frame=''>2.0 3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+    <light name='user_point_light_6' type='point'>
+      <pose frame=''>-2.0 3.3 4.0 0 0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+
+    <light name='user_point_light_7' type='point'>
+      <pose frame=''>-5.3 3.3 4.0 0 -0 0</pose>
+      <diffuse>0.2 0.2 0.2 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <attenuation>
+        <range>15</range>
+        <constant>0.5</constant>
+        <linear>0.0</linear>
+        <quadratic>0.00</quadratic>
+      </attenuation>
+      <cast_shadows>1</cast_shadows>
+      <direction>0 0 -1</direction>
+    </light>
+
+
+
+
+  </world>
+</sdf>

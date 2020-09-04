@@ -1,0 +1,6 @@
+dp_ptu_46_description
+=====================
+
+URDF description for the Directed Perception PTU-46-17.5 pan-tilt unit.
+
+The model doesn't work in Gazebo (works perfectly in RViz) at the moment. This is most probably due to the incompatible mesh format for Gazebo - the Collada mesh polygons have to be formatted differently. If you have a fix, let me know.

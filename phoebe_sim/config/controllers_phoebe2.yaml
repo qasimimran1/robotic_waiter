@@ -1,0 +1,280 @@
+dynamixels: [
+  'right_arm_shoulder_roll_joint',
+  'right_arm_shoulder_pitch_joint',
+  'right_arm_shoulder_yaw_joint',
+  'right_arm_elbow_pitch_joint',
+  'right_arm_elbow_yaw_joint',
+  'right_arm_wrist_pitch_joint',
+  'right_arm_wrist_roll_joint',
+  'right_arm_gripper_joint',
+  'right_arm_gripper_joint2',
+  'left_arm_shoulder_roll_joint',
+  'left_arm_shoulder_pitch_joint',
+  'left_arm_shoulder_yaw_joint',
+  'left_arm_elbow_pitch_joint',
+  'left_arm_elbow_yaw_joint',
+  'left_arm_wrist_pitch_joint',
+  'left_arm_wrist_roll_joint',
+  'left_arm_gripper_joint',
+  'left_arm_gripper_joint2'
+]
+
+# Publish all joint states -----------------------------------
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 50  
+
+right_arm_shoulder_roll_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_shoulder_roll_joint
+  joint_speed: 5.0
+  motor:
+    id: 0
+    init: 2037
+    min: 323
+    max: 3751
+
+right_arm_shoulder_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_shoulder_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 1
+    init: 2067
+    min: 888
+    max: 3246
+
+right_arm_shoulder_yaw_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_shoulder_yaw_joint
+  joint_speed: 5.0
+  motor:
+    id: 2
+    init: 2050
+    min: 876
+    max: 3229
+
+right_arm_elbow_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_elbow_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 3
+    init: 2070
+    min: 845
+    max: 3296
+
+right_arm_elbow_yaw_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_elbow_yaw_joint
+  joint_speed: 5.0
+  motor:
+    id: 4
+    init: 2037
+    min: 655
+    max: 3175
+
+right_arm_wrist_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_wrist_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 5
+    init: 2050
+    min: 741
+    max: 3335
+
+right_arm_wrist_roll_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_wrist_roll_joint
+  joint_speed: 5.0
+  motor:
+    id: 6
+    init: 2040
+    min: 334
+    max: 3747
+
+right_arm_gripper_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_gripper_joint
+  joint_speed: 5.0
+  motor:
+    id: 7
+    init: 1902
+    min: 360
+    max: 3440
+
+right_arm_gripper2_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: right_arm_gripper_joint2
+  joint_speed: 5.0
+  motor:
+    id: 7
+    init: 1902
+    min: 360
+    max: 3440
+
+right_cyton_joint_trajectory_action_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_trajectory_action_controller
+    type: JointTrajectoryActionController
+  joint_trajectory_action_node:
+    min_velocity: 0.25
+    constraints:
+      goal_time: 1.0
+
+
+left_arm_shoulder_roll_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_shoulder_roll_joint
+  joint_speed: 5.0
+  motor:
+    id: 0
+    init: 2037
+    min: 323
+    max: 3751
+
+left_arm_shoulder_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_shoulder_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 1
+    init: 2067
+    min: 888
+    max: 3246
+
+left_arm_shoulder_yaw_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_shoulder_yaw_joint
+  joint_speed: 5.0
+  motor:
+    id: 2
+    init: 2050
+    min: 876
+    max: 3229
+
+left_arm_elbow_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_elbow_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 3
+    init: 2070
+    min: 845
+    max: 3296
+
+left_arm_elbow_yaw_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_elbow_yaw_joint
+  joint_speed: 5.0
+  motor:
+    id: 4
+    init: 2037
+    min: 655
+    max: 3175
+
+left_arm_wrist_pitch_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_wrist_pitch_joint
+  joint_speed: 5.0
+  motor:
+    id: 5
+    init: 2050
+    min: 741
+    max: 3335
+
+left_arm_wrist_roll_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_wrist_roll_joint
+  joint_speed: 5.0
+  motor:
+    id: 6
+    init: 2040
+    min: 334
+    max: 3747
+
+left_arm_gripper_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_gripper_joint
+  joint_speed: 5.0
+  motor:
+    id: 7
+    init: 1902
+    min: 360
+    max: 3440
+
+left_arm_gripper2_position_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_position_controller
+    type: JointPositionController
+  joint_name: left_arm_gripper_joint2
+  joint_speed: 5.0
+  motor:
+    id: 7
+    init: 1902
+    min: 360
+    max: 3440
+
+left_cyton_joint_trajectory_action_controller:
+  controller:
+    package: dynamixel_controllers
+    module: joint_trajectory_action_controller
+    type: JointTrajectoryActionController
+  joint_trajectory_action_node:
+    min_velocity: 0.25
+    constraints:
+      goal_time: 1.0

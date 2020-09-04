@@ -1,0 +1,86 @@
+controller_list:
+ 
+      
+      
+      
+  # - name: left_arm_controller
+    # action_ns: follow_joint_trajectory
+    # type: FollowJointTrajectory
+    # joints:
+      # - left_arm_shoulder_roll_joint
+      # - left_arm_shoulder_pitch_joint
+      # - left_arm_shoulder_yaw_joint
+      # - left_arm_elbow_pitch_joint
+      # - left_arm_elbow_yaw_joint
+      # - left_arm_wrist_pitch_joint
+      # - left_arm_wrist_roll_joint
+      
+      
+  # - name: right_arm_controller
+    # action_ns: follow_joint_trajectory
+    # type: FollowJointTrajectory
+    # joints:
+      # - right_arm_shoulder_roll_joint
+      # - right_arm_shoulder_pitch_joint
+      # - right_arm_shoulder_yaw_joint
+      # - right_arm_elbow_pitch_joint
+      # - right_arm_elbow_yaw_joint
+      # - right_arm_wrist_pitch_joint
+      # - right_arm_wrist_roll_joint
+
+  - name: dual_arm_controller
+    action_ns:  follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - left_arm_shoulder_roll_joint
+      - left_arm_shoulder_pitch_joint
+      - left_arm_shoulder_yaw_joint
+      - left_arm_elbow_pitch_joint
+      - left_arm_elbow_yaw_joint
+      - left_arm_wrist_pitch_joint
+      - left_arm_wrist_roll_joint
+      - right_arm_shoulder_roll_joint
+      - right_arm_shoulder_pitch_joint
+      - right_arm_shoulder_yaw_joint
+      - right_arm_elbow_pitch_joint
+      - right_arm_elbow_yaw_joint
+      - right_arm_wrist_pitch_joint
+      - right_arm_wrist_roll_joint
+      
+  
+     
+  - name: right_gripper_controller
+    action_ns: gripper_cmd
+    type: GripperCommand
+    # default: true
+    # parallel: true
+    #action_ns: follow_joint_trajectory
+    #type: FollowJointTrajectory
+    joints: 
+      - right_arm_gripper_joint
+     
+
+  - name: left_gripper_controller
+    action_ns: gripper_cmd
+    type: GripperCommand
+    # default: true
+    # parallel: true
+    # action_ns: follow_joint_trajectory
+    # type: FollowJointTrajectory
+    joints:
+      - left_arm_gripper_joint
+      # - left_arm_gripper_joint2      
+
+  - name: ptu_controller
+    action_ns:  follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - ptu_pan_joint
+      - ptu_tilt_joint   
+  # - name: wheels_controller
+    # action_ns: wheels_speed_control
+    # type: diff_drive
+    # joints: 
+        # - wheel_left_joint
+        # - wheel_right_joint
+  

@@ -1,0 +1,65 @@
+<launch>
+  <param name="phoebe/robot_description" textfile="$(find phoebe_description)/urdf/phoebe.urdf" />
+   <rosparam file= "$(find phoebe_description)/config/joint_names.yaml"/>
+  <arg name="x" 							default="0.0" />
+  <arg name="y" 							default="0.0" />
+  <arg name="z" 							default="0.0" />
+  <arg name="roll" 						default="0.0"/>
+  <arg name="pitch" 					default="0.0"/>
+  <arg name="yaw" 					default="0.0"/>   <!--  -1.5780  -->
+  
+  
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <!--arg name="world_name" value="worlds/mud.world"/--> <!-- Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+
+    <!-- <arg name="world_name" value="$(find phoebe_sim)/worlds/willow_garage.world"/> -->
+	<arg name="world_name" value="$(find phoebe_sim)/worlds/my_test.world"/>
+	<!-- <arg name="world_name" value="$(find mybot_gazebo)/worlds/turtlebot_playground.world"/> -->
+    <arg name="paused" 					value="false"/>
+    <arg name="use_sim_time" 		value="true"/>
+    <arg name="gui" 							value="true"/>
+    <arg name="recording" 				value="false"/>
+	<arg name="headless" 				default="false"/>
+    <arg name="debug" 						value="false"/>
+  </include>
+
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" ns = "phoebe" respawn="false" output="screen"
+        args="-param robot_description -urdf -model phoebe  -x $(arg x) -y $(arg y) -z $(arg z)
+		-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
+
+  <rosparam file="$(find phoebe_sim)/config/controllers_phoebe.yaml" command="load"/>
+  
+  
+  <rosparam file="$(find phoebe_sim)/config/pid_gains.yaml" command="load" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"  respawn="false" output="screen" ns="phoebe"
+  
+        args=" 
+		       dual_arm_controller			   
+		       left_gripper_controller
+               right_gripper_controller
+			   ptu_controller
+			   wheels_controller		   
+			   
+		"
+		/><!-- wheels_controller
+			   dual_arm_controller		-->
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" ns="phoebe">
+    <!-- <param name="publish_frequency" type="double" value="50.0" /> -->
+	<!-- <remap from="/joint_states" to="/phoebe/joint_states" /> -->
+  </node>
+  
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" /> -->
+  
+  
+  <node pkg="joint_state_publisher"
+    type="joint_state_publisher"
+    name="joint_state_publisher" 
+    ns="phoebe">
+    <param name="rate" value="50" />
+</node>
+	
+
+</launch>

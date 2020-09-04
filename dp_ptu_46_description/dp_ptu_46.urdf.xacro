@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dp_ptu_46">
+  <xacro:include filename="$(find dp_ptu_46_description)/dp_ptu_46_macros.urdf.xacro" />
+
+  <xacro:dp_ptu_46 prefix="" plate="true" thickness="0.005" />
+</robot>

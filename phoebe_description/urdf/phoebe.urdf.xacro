@@ -36,12 +36,12 @@
   </link>
   
   <joint name="wheel_rear_joint" type="continuous">
+     <origin rpy="0 0 0" xyz="-0.29 0.0 0.020"/>
     <parent link="base_link"/>
-    <child link="wheel_rear"/>
-    <origin rpy="0 0 0" xyz="-0.29 0.0 0.020"/>
+    <child link="wheel_rear"/>   
 	<axis rpy="0 0 0" xyz="0 1 0"/>
     <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>
+    <joint_properties damping="0.0" friction="0.0"/>
     
   </joint>
 
@@ -56,7 +56,7 @@
     <visual>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.02"/>
+        <cylinder length="0.025" radius="0.02"/>
       </geometry>
       <material name="blackish">
         <color rgba="0.2 0.2 0.2 1"/>
@@ -65,7 +65,7 @@
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.02"/>
+        <cylinder length="0.025" radius="0.02"/>
       </geometry>
     </collision>
   </link>
@@ -77,7 +77,7 @@
     <origin rpy="0 0 0" xyz="0.206 0 0.020"/>
 	<axis rpy="0 0 0" xyz="0 1 0"/>
     <limit effort="10000" velocity="1000"/>
-    <joint_properties damping="1.0" friction="1.0"/>    
+    <joint_properties damping="0.0" friction="0.0"/>    
   </joint>
   
   <link name="wheel_front">
@@ -91,14 +91,14 @@
     <visual>
      <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
      <geometry>
-        <cylinder length="0.1" radius="0.02"/>
+        <cylinder length="0.025" radius="0.02"/>
       </geometry>
       <material name="blackish"/>
     </visual>
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <cylinder length="0.1" radius="0.02"/>
+        <cylinder length="0.025" radius="0.02"/>
       </geometry>
     </collision>
   </link>

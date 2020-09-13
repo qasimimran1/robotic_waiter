@@ -1,0 +1,174 @@
+nodes:
+ Waypoint1: {x: 31.26, y: 19.37}
+ Waypoint2: {x: 42.12, y: 22.58}
+ Waypoint3: {x: 38.75, y: 25.46}
+ Waypoint4: {x: 34.3, y: 24.79}
+ Waypoint5: {x: 42.89, y: 29.1}
+ Waypoint6: {x: 27.18, y: 21.51}
+ Waypoint7: {x: 38.78, y: 28.07}
+ Waypoint8: {x: 31.79, y: 24.66}
+ Waypoint9: {x: 43.56, y: 32.15}
+ Waypoint10: {x: 35.74, y: 28.9}
+ Waypoint11: {x: 42.59, y: 35.66}
+ Waypoint12: {x: 35.91, y: 31.24}
+ Waypoint13: {x: 33.87, y: 29.57}
+ Waypoint14: {x: 29.79, y: 26.53}
+ Waypoint15: {x: 33.9, y: 32.48}
+ Waypoint16: {x: 35.74, y: 35.45}
+ Waypoint17: {x: 29.92, y: 28.8}
+ Waypoint18: {x: 31.26, y: 35.29}
+ Waypoint19: {x: 28.22, y: 33.28}
+ Waypoint20: {x: 24.51, y: 23.65}
+ Waypoint21: {x: 23.97, y: 29.74}
+ Waypoint22: {x: 24.77, y: 34.62}
+ Waypoint23: {x: 23.1, y: 26.29}
+ Waypoint24: {x: 21.63, y: 33.65}
+ Waypoint25: {x: 21.26, y: 26.46}
+ Waypoint26: {x: 21.16, y: 23.65}
+ Waypoint27: {x: 17.25, y: 34.08}
+ Waypoint28: {x: 18.02, y: 26.46}
+ Waypoint29: {x: 10.73, y: 35.45}
+ Waypoint30: {x: 14.07, y: 29.27}
+ Waypoint31: {x: 5.95, y: 36.49}
+ Waypoint32: {x: 14.44, y: 26.56}
+ Waypoint33: {x: 8.83, y: 31.78}
+ Waypoint34: {x: 10.13, y: 29.47}
+ Waypoint35: {x: 1.74, y: 36.32}
+ Waypoint36: {x: 5.88, y: 29.84}
+ Waypoint37: {x: 10.43, y: 26.46}
+ Waypoint38: {x: 2.71, y: 29.87}
+ Waypoint39: {x: 14.71, y: 20.54}
+ Waypoint40: {x: 6.52, y: 22.48}
+ Waypoint41: {x: 2.84, y: 22.75}
+ Waypoint42: {x: 10.36, y: 20.61}
+ Waypoint43: {x: 11.97, y: 17.9}
+ Waypoint44: {x: 17.72, y: 17.87}
+ Waypoint45: {x: 10.33, y: 15.43}
+ Waypoint46: {x: 6.62, y: 12.52}
+ Waypoint47: {x: 15.04, y: 15.4}
+ Waypoint48: {x: 10.2, y: 12.35}
+ Waypoint49: {x: 6.75, y: 9.31}
+ Waypoint50: {x: 10.23, y: 9.04}
+ Waypoint51: {x: 7.92, y: 6.77}
+ Waypoint52: {x: 16.48, y: 13.66}
+ Waypoint53: {x: 13.51, y: 10.55}
+ Waypoint54: {x: 10.26, y: 6.6}
+ Waypoint55: {x: 8.49, y: 3.73}
+ Waypoint56: {x: 10.3, y: 3.59}
+ Waypoint57: {x: 18.52, y: 13.76}
+ Waypoint58: {x: 13.17, y: 6.34}
+ Waypoint59: {x: 14.84, y: 6.44}
+ Waypoint60: {x: 14.38, y: 2.36}
+ Waypoint61: {x: 18.89, y: 10.75}
+ Waypoint62: {x: 19.22, y: 6.4}
+ Waypoint63: {x: 19.99, y: 3.03}
+ Waypoint64: {x: 22.27, y: 6.3}
+ Waypoint65: {x: 22.5, y: 13.72}
+ Waypoint66: {x: 23.34, y: 2.59}
+ Waypoint67: {x: 24.1, y: 9.08}
+ Waypoint68: {x: 25.58, y: 2.99}
+ Waypoint69: {x: 25.61, y: 6.3}
+ Waypoint70: {x: 25.81, y: 8.84}
+ Waypoint71: {x: 28.58, y: 3.59}
+ Waypoint72: {x: 25.44, y: 12.22}
+ Waypoint73: {x: 27.95, y: 6.3}
+ Waypoint74: {x: 29.32, y: 6.74}
+ Waypoint75: {x: 31.59, y: 4.9}
+ Waypoint76: {x: 31.33, y: 8.31}
+ Waypoint77: {x: 34.0, y: 6.7}
+ Waypoint78: {x: 33.93, y: 10.11}
+ Waypoint79: {x: 36.47, y: 8.48}
+ Waypoint80: {x: 29.55, y: 13.79}
+ Waypoint81: {x: 34.13, y: 12.39}
+ Waypoint82: {x: 38.58, y: 10.55}
+ Waypoint83: {x: 37.18, y: 13.82}
+ Waypoint84: {x: 41.46, y: 13.72}
+ Waypoint85: {x: 33.83, y: 17.37}
+ Waypoint86: {x: 44.63, y: 17.4}
+neighbors:
+ Waypoint1: ['Waypoint8']
+ Waypoint2: ['Waypoint3', 'Waypoint86']
+ Waypoint3: ['Waypoint2', 'Waypoint4', 'Waypoint7']
+ Waypoint4: ['Waypoint3', 'Waypoint8', 'Waypoint10', 'Waypoint13', 'Waypoint14', 'Waypoint85']
+ Waypoint5: ['Waypoint7']
+ Waypoint6: ['Waypoint8']
+ Waypoint7: ['Waypoint3', 'Waypoint5', 'Waypoint10']
+ Waypoint8: ['Waypoint1', 'Waypoint4', 'Waypoint6']
+ Waypoint9: ['Waypoint11', 'Waypoint12']
+ Waypoint10: ['Waypoint4', 'Waypoint7', 'Waypoint12', 'Waypoint13']
+ Waypoint11: ['Waypoint9', 'Waypoint16']
+ Waypoint12: ['Waypoint9', 'Waypoint10', 'Waypoint16']
+ Waypoint13: ['Waypoint4', 'Waypoint10', 'Waypoint14', 'Waypoint15']
+ Waypoint14: ['Waypoint4', 'Waypoint13', 'Waypoint17', 'Waypoint23']
+ Waypoint15: ['Waypoint13', 'Waypoint18', 'Waypoint19']
+ Waypoint16: ['Waypoint11', 'Waypoint12']
+ Waypoint17: ['Waypoint14']
+ Waypoint18: ['Waypoint15', 'Waypoint19', 'Waypoint22']
+ Waypoint19: ['Waypoint15', 'Waypoint18', 'Waypoint22']
+ Waypoint20: ['Waypoint23']
+ Waypoint21: ['Waypoint23']
+ Waypoint22: ['Waypoint18', 'Waypoint19', 'Waypoint24']
+ Waypoint23: ['Waypoint14', 'Waypoint20', 'Waypoint21', 'Waypoint25']
+ Waypoint24: ['Waypoint22', 'Waypoint27']
+ Waypoint25: ['Waypoint23', 'Waypoint26', 'Waypoint28']
+ Waypoint26: ['Waypoint25']
+ Waypoint27: ['Waypoint24', 'Waypoint29']
+ Waypoint28: ['Waypoint25', 'Waypoint32']
+ Waypoint29: ['Waypoint27', 'Waypoint33', 'Waypoint34']
+ Waypoint30: ['Waypoint32']
+ Waypoint31: ['Waypoint33', 'Waypoint35', 'Waypoint36']
+ Waypoint32: ['Waypoint28', 'Waypoint30', 'Waypoint37']
+ Waypoint33: ['Waypoint29', 'Waypoint31', 'Waypoint34']
+ Waypoint34: ['Waypoint29', 'Waypoint31', 'Waypoint37']
+ Waypoint35: ['Waypoint31', 'Waypoint38']
+ Waypoint36: ['Waypoint31', 'Waypoint38', 'Waypoint40']
+ Waypoint37: ['Waypoint32', 'Waypoint34', 'Waypoint40', 'Waypoint42']
+ Waypoint38: ['Waypoint35', 'Waypoint36', 'Waypoint41']
+ Waypoint39: ['Waypoint42', 'Waypoint43', 'Waypoint44']
+ Waypoint40: ['Waypoint36', 'Waypoint37', 'Waypoint41', 'Waypoint42']
+ Waypoint41: ['Waypoint40', 'Waypoint38']
+ Waypoint42: ['Waypoint37', 'Waypoint39', 'Waypoint40', 'Waypoint43', 'Waypoint45']
+ Waypoint43: ['Waypoint39', 'Waypoint42', 'Waypoint45', 'Waypoint47']
+ Waypoint44: ['Waypoint39', 'Waypoint47']
+ Waypoint45: ['Waypoint42', 'Waypoint43', 'Waypoint47', 'Waypoint48']
+ Waypoint46: ['Waypoint48']
+ Waypoint47: ['Waypoint43', 'Waypoint44', 'Waypoint45']
+ Waypoint48: ['Waypoint45', 'Waypoint46', 'Waypoint50']
+ Waypoint49: ['Waypoint50']
+ Waypoint50: ['Waypoint48', 'Waypoint49', 'Waypoint54']
+ Waypoint51: ['Waypoint54', 'Waypoint55']
+ Waypoint52: ['Waypoint53', 'Waypoint57']
+ Waypoint53: ['Waypoint52', 'Waypoint59']
+ Waypoint54: ['Waypoint50', 'Waypoint51', 'Waypoint56', 'Waypoint58']
+ Waypoint55: ['Waypoint51']
+ Waypoint56: ['Waypoint54']
+ Waypoint57: ['Waypoint52', 'Waypoint61', 'Waypoint65']
+ Waypoint58: ['Waypoint54', 'Waypoint59', 'Waypoint60']
+ Waypoint59: ['Waypoint53', 'Waypoint58', 'Waypoint62']
+ Waypoint60: ['Waypoint58']
+ Waypoint61: ['Waypoint57', 'Waypoint62', 'Waypoint65']
+ Waypoint62: ['Waypoint59', 'Waypoint61', 'Waypoint63', 'Waypoint64']
+ Waypoint63: ['Waypoint62']
+ Waypoint64: ['Waypoint62', 'Waypoint66', 'Waypoint69']
+ Waypoint65: ['Waypoint57', 'Waypoint61', 'Waypoint72']
+ Waypoint66: ['Waypoint64']
+ Waypoint67: ['Waypoint69', 'Waypoint70', 'Waypoint72']
+ Waypoint68: ['Waypoint69']
+ Waypoint69: ['Waypoint64', 'Waypoint67', 'Waypoint68', 'Waypoint73']
+ Waypoint70: ['Waypoint67']
+ Waypoint71: ['Waypoint73']
+ Waypoint72: ['Waypoint65', 'Waypoint67']
+ Waypoint73: ['Waypoint69', 'Waypoint71', 'Waypoint74']
+ Waypoint74: ['Waypoint73', 'Waypoint75', 'Waypoint76']
+ Waypoint75: ['Waypoint74']
+ Waypoint76: ['Waypoint74', 'Waypoint77', 'Waypoint78']
+ Waypoint77: ['Waypoint76']
+ Waypoint78: ['Waypoint76', 'Waypoint79', 'Waypoint81']
+ Waypoint79: ['Waypoint78']
+ Waypoint80: ['Waypoint81', 'Waypoint85']
+ Waypoint81: ['Waypoint78', 'Waypoint80', 'Waypoint82', 'Waypoint83', 'Waypoint85']
+ Waypoint82: ['Waypoint81']
+ Waypoint83: ['Waypoint81', 'Waypoint84']
+ Waypoint84: ['Waypoint83', 'Waypoint86']
+ Waypoint85: ['Waypoint80', 'Waypoint81', 'Waypoint4']
+ Waypoint86: ['Waypoint2', 'Waypoint84']

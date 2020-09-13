@@ -3,9 +3,9 @@
     command="$(find xacro)/xacro --inorder '$(find phoebe_description)/urdf/phoebe.urdf.xacro'" />
 
   <!-- send fake joint values -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
    <!-- <param name="use_gui" value="TRUE"/>   -->
-   <param name="publish_default_positions" value="false"/>	
+   <!-- <param name="publish_default_positions" value="false"/>	 -->
 
   </node>
 

@@ -4,7 +4,7 @@
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
 		<!-- <publishTf>1</publishTf> -->
-		<robotNamespace>/phoebe</robotNamespace>
+		<robotNamespace></robotNamespace>
 		<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
 		<legacyModeNS>true</legacyModeNS>
 	
@@ -57,7 +57,7 @@
           <kp>1e+13</kp>
           <kd>1</kd>
         <material>Gazebo/White</material>
-  </gazebo>
+  </gazebo>  
   
   <gazebo reference="wheel_rear">
           <mu1 value="220.0"/>
@@ -94,7 +94,7 @@
   </gazebo> 
   
   
-  <!-- <gazebo>
+  <gazebo>
     <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
       <alwaysOn>true</alwaysOn>
       <updateRate>50</updateRate>
@@ -116,7 +116,7 @@
 	  <rosDebugLevel>na</rosDebugLevel> 
       <odometrySource>0</odometrySource> 
     </plugin>
-  </gazebo> -->
+  </gazebo>
   
   
  
@@ -285,7 +285,7 @@
       <baseline>0.2</baseline>
       <alwaysOn>true</alwaysOn>
       <updateRate>0</updateRate>
-      <cameraName>xtion_ir</cameraName>
+      <cameraName>xtion</cameraName>
       <imageTopicName>/xtion/color/image_raw</imageTopicName>
       <cameraInfoTopicName>/xtion/color/camera_info</cameraInfoTopicName>
       <depthImageTopicName>/xtion/depth/image_raw</depthImageTopicName>

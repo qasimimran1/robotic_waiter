@@ -3,17 +3,17 @@
 	<arg name="use_sim_time" 	default="true"/>
 	<arg name="gui" 						default="true"/>
 	<arg name="headless" 			default="false"/>
-	<arg name="debug" 					default="false"/>
-	<arg name="x" 							default="0.0" />
+	<arg name="debug" 				default="false"/>
+	<arg name="x" 							default="2.28" />
 	<arg name="y" 							default="0.0" />
 	<arg name="z" 							default="0.0" />
 	<arg name="roll" 						default="0.0"/>
 	<arg name="pitch" 					default="0.0"/>
-	<arg name="yaw" 						default="0.0"/>   <!--  -1.5780  -->
+	<arg name="yaw" 					default="0.0"/>   <!--  -1.5780  -->
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-	<arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test2.world"/>
+	<arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/>
     <!-- <arg name="world_name" 		value="$(find rrbot_gazebo)/worlds/rrbot.world"/> -->
     <arg name="debug" 					value="$(arg debug)" />
     <arg name="gui" 						value="$(arg gui)" />
@@ -28,16 +28,7 @@
    <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find phoebe_sim)/config/controllers_phoebe.yaml" command="load"/>
 
-  <!-- load the controllers -->
-  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-	output="screen"  ns="/phoebe"
-			args="	joint_state_controller
-							dual_arm_controller			   
-							left_gripper_controller
-							right_gripper_controller
-							ptu_controller
-							wheels_controller"/>
-
+  
   
 	
   <!-- Load the URDF into the ROS Parameter Server -->  
@@ -50,20 +41,33 @@
 		-R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 	
 	<!-- send fake joint values -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-   <!-- <param name="use_gui" value="TRUE"/>   -->
-   <param name="publish_default_positions" value="false"/>	
-
-  </node>
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"> -->
+		<!-- <param name="use_gui" value="TRUE"/>   -->
+		<!-- <param name="publish_default_positions" value="false"/>	 -->
+  <!-- </node> -->
   
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
 	respawn="false" output="screen">
-    <remap from="/joint_states" to="/phoebe/joint_states" />   
+	<param name="publish_frequency" value="100.0" />
+    <!-- <remap from="/joint_states" to="/phoebe/joint_states" />    -->
   </node>
   
+  
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen"  
+			args="	joint_state_controller
+							left_arm_controller
+							right_arm_controller										   
+							left_gripper_controller
+							right_gripper_controller
+							ptu_controller
+							"/>
+  <!-- wheels_controller   dual_arm_controller -->
+  
   <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find phoebe_sim)/launch/phoebe.rviz" required="true"/> 
+  <!-- <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find phoebe_sim)/launch/phoebe.rviz" required="true"/>  -->
 
 
 </launch>

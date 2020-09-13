@@ -1,0 +1,5 @@
+<launch>
+
+ <rosparam command="load" file="$(find phoebe_moveit_config)/config/sensors_3d.yaml"/>
+
+</launch>

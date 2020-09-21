@@ -23,7 +23,6 @@ def move_group_interface():
     ## to the world surrounding the robot.
     scene = moveit_commander.PlanningSceneInterface()
     
-    
 
 
     ## Instantiate a MoveGroupCommander object.  This object is an interface
@@ -32,58 +31,9 @@ def move_group_interface():
     ## arm.
     dual_arm_group = moveit_commander.MoveGroupCommander("dual_arm")
     
-    left_arm_group =  moveit_commander.MoveGroupCommander("left_arm")
-    
-    tf_target_left = tf.TransformListener()
-    # tf_target_right = tf.TransformListener()    
-    
+    # left_arm_group =  moveit_commander.MoveGroupCommander("left_arm")
     # print "============ Reference frame: %s" % left_arm_group.get_planning_frame()
     # print "============End Effector: %s" % left_arm_group.get_end_effector_link()
-    
-    ref_frame = left_arm_group.get_planning_frame()
-    print ref_frame
-    got = False
-    got= tf_target_left.waitForTransform("base_footprint", "left", rospy.Time(), rospy.Duration(2))
-    tries = 0
-    print got
-    while got != True :
-    
-    
-       try:
-           now = rospy.Time.now()
-           tries += 1
-           got= tf_target_left.waitForTransform("/base_footprint", "/left", now, rospy.Duration(2))
-                
-                
-       except:
-           if tries < 10: 
-                continue
-           else:
-                print "Not received"
-                break
-                # rospy.sleep(6)
-                # left_arm_group.go(wait=True)
-                
-                
-                
-                
-       
-               
-    
-    
-    # print "============TRANSFORM GOT===="
-    # (trans,rot) = tf_target_left.lookupTransform("base_footprint", "left", now)
-    # pose_target = geometry_msgs.msg.Pose()
-    # pose_target.position = trans
-    # pose_target.orientation.w = 1
-    # pose_target.orientation.x =0
-    # pose_target.orientation.y = 0
-    # pose_target.orientation.z =0
-                
-    # left_arm_group.set_pose_target(pose_target)
-    # plan1 = left_arm_group.plan()
-    
-    
     # left_gripper_group =  moveit_commander.MoveGroupCommander("left_gripper")
     # right_arm_group =  moveit_commander.MoveGroupCommander("right_arm")
 
@@ -92,10 +42,27 @@ def move_group_interface():
     ## trajectories for RVIZ to visualize.
     #display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path', moveit_msgs.msg.DisplayTrajectory, queue_size=10)
 
+    dual_arm_group.set_named_target("both_down")
+    plan1= dual_arm_group.plan()
+    rospy.sleep(0.5)
+    dual_arm_group.go()
+    # print "...Home..."
+    # rospy.sleep(5)
     
-    # dual_arm_group.set_named_target("both_grab")
+    
+    
+    # dual_arm_group.set_named_target("both_grab3")
     # plan1= dual_arm_group.plan()
-    # rospy.sleep(1)
+    # rospy.sleep(0.5)
+    # dual_arm_group.go()
+    # print "...Waiting to lift..."
+    # rospy.sleep(20)
+    
+    
+    
+    # dual_arm_group.set_named_target("both_lift")
+    # plan1= dual_arm_group.plan()
+    # rospy.sleep(0.5)
     # dual_arm_group.go()
     # print "...Home..."
     # rospy.sleep(1)

@@ -1,0 +1,10 @@
+<launch>
+	<arg name="arm_left" 				default="left"/>	
+	<arg name="arm_right" 			default="right"/> 
+
+  <!-- Left Arm Control -->
+  <node name="left_control" pkg="phoebe_sim" type="move_interface.py"     args="$(arg arm_left)"/>
+  <!-- Right Arm Control -->
+  <!-- <node name="right_control" pkg="phoebe_sim" type="move_interface.py"     args="$(arg arm_right)"/> -->
+
+</launch>

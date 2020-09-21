@@ -4,16 +4,16 @@
 	<arg name="gui" 						default="true"/>
 	<arg name="headless" 			default="false"/>
 	<arg name="debug" 				default="false"/>
-	<arg name="x" 							default="2.28" />
-	<arg name="y" 							default="0.0" />
+	<arg name="x" 						default="2.45" />
+	<arg name="y" 						default="0.0" />
 	<arg name="z" 							default="0.0" />
-	<arg name="roll" 						default="0.0"/>
-	<arg name="pitch" 					default="0.0"/>
-	<arg name="yaw" 					default="0.0"/>   <!--  -1.5780  -->
+	<arg name="roll" 						default="0.000"/>
+	<arg name="pitch" 					default="0.000"/>
+	<arg name="yaw" 					default="0.000"/>   <!--  -1.5780  -->
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-	<arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/>
+	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/> -->
     <!-- <arg name="world_name" 		value="$(find rrbot_gazebo)/worlds/rrbot.world"/> -->
     <arg name="debug" 					value="$(arg debug)" />
     <arg name="gui" 						value="$(arg gui)" />
@@ -63,6 +63,7 @@
 							left_gripper_controller
 							right_gripper_controller
 							ptu_controller
+							wheels_controller
 							"/>
   <!-- wheels_controller   dual_arm_controller -->
   

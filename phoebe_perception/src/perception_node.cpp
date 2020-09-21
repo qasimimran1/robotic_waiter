@@ -115,14 +115,17 @@ int main(int argc, char *argv[])
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr (new pcl::PointCloud<pcl::PointXYZ> (cloud));
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_voxel_filtered (new pcl::PointCloud<pcl::PointXYZ> ());
   pcl::VoxelGrid<pcl::PointXYZ> voxel_filter;
-  voxel_filter.setInputCloud (cloud_ptr);
-  voxel_filter.setLeafSize (voxel_leaf_size, voxel_leaf_size, voxel_leaf_size);
-  voxel_filter.filter (*cloud_voxel_filtered);
+  if(cloud_ptr -> points.size () > 0){
+	  voxel_filter.setInputCloud (cloud_ptr);
+	  voxel_filter.setLeafSize (voxel_leaf_size, voxel_leaf_size, voxel_leaf_size);
+	  voxel_filter.filter (*cloud_voxel_filtered);
+	  
+	  
+	  ROS_INFO_STREAM("Original cloud  had " << cloud_ptr->size() << " points");
+	  ROS_INFO_STREAM("Downsampled cloud  with " << cloud_voxel_filtered->size() << " points");
+	  
 
-  //ROS_INFO_STREAM("Original cloud  had " << cloud_ptr->size() << " points");
-  //ROS_INFO_STREAM("Downsampled cloud  with " << cloud_voxel_filtered->size() << " points");
-
-  /* ========================================
+/* ========================================
    * Fill Code: PASSTHROUGH FILTER(S)
    * ========================================*/
   pcl::PointCloud<pcl::PointXYZ> xf_cloud, yf_cloud, zf_cloud;
@@ -417,6 +420,19 @@ int main(int argc, char *argv[])
   pc2_cloud->header.frame_id=world_frame;
   pc2_cloud->header.stamp=ros::Time::now();
   object_pub.publish(pc2_cloud);
+
+
+
+	  
+  }
+  else{
+	  ROS_ERROR("Tilt PTU down");
+  }
+  
+
+  
+
+  
   }
   return 0;
 }

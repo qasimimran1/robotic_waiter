@@ -236,6 +236,60 @@
         <joint name="left_arm_gripper_joint" value="0.004" />
         <joint name="right_arm_gripper_joint" value="0.004" />
     </group_state>
+    <group_state name="both_grab2" group="dual_arm">
+        <joint name="left_arm_elbow_pitch_joint" value="-1.26" />
+        <joint name="left_arm_elbow_yaw_joint" value="0.97" />
+        <joint name="left_arm_gripper_joint" value="-0.007" />
+        <joint name="left_arm_shoulder_pitch_joint" value="-1.2" />
+        <joint name="left_arm_shoulder_roll_joint" value="-1.89" />
+        <joint name="left_arm_shoulder_yaw_joint" value="-1.82" />
+        <joint name="left_arm_wrist_pitch_joint" value="-0.85" />
+        <joint name="left_arm_wrist_roll_joint" value="-1.25" />
+        <joint name="right_arm_elbow_pitch_joint" value="-1.79" />
+        <joint name="right_arm_elbow_yaw_joint" value="-0.72" />
+        <joint name="right_arm_gripper_joint" value="-0.007" />
+        <joint name="right_arm_shoulder_pitch_joint" value="-1.25" />
+        <joint name="right_arm_shoulder_roll_joint" value="2.54" />
+        <joint name="right_arm_shoulder_yaw_joint" value="0.66" />
+        <joint name="right_arm_wrist_pitch_joint" value="-1.5" />
+        <joint name="right_arm_wrist_roll_joint" value="0.92" />
+    </group_state>
+    <group_state name="both_grab3" group="dual_arm">
+        <joint name="left_arm_elbow_pitch_joint" value="-1.26" />
+        <joint name="left_arm_elbow_yaw_joint" value="0.97" />
+        <joint name="left_arm_gripper_joint" value="-0.007" />
+        <joint name="left_arm_shoulder_pitch_joint" value="-1.2" />
+        <joint name="left_arm_shoulder_roll_joint" value="-1.85" />
+        <joint name="left_arm_shoulder_yaw_joint" value="-1.82" />
+        <joint name="left_arm_wrist_pitch_joint" value="-0.85" />
+        <joint name="left_arm_wrist_roll_joint" value="-1.25" />
+        <joint name="right_arm_elbow_pitch_joint" value="-1.26" />
+        <joint name="right_arm_elbow_yaw_joint" value="-0.97" />
+        <joint name="right_arm_gripper_joint" value="-0.007" />
+        <joint name="right_arm_shoulder_pitch_joint" value="-1.2" />
+        <joint name="right_arm_shoulder_roll_joint" value="1.85" />
+        <joint name="right_arm_shoulder_yaw_joint" value="1.82" />
+        <joint name="right_arm_wrist_pitch_joint" value="-0.85" />
+        <joint name="right_arm_wrist_roll_joint" value="1.25" />
+    </group_state>
+    <group_state name="both_lift" group="dual_arm">
+        <joint name="left_arm_elbow_pitch_joint" value="-1.26" />
+        <joint name="left_arm_elbow_yaw_joint" value="0.97" />
+        <joint name="left_arm_gripper_joint" value="0.002" />
+        <joint name="left_arm_shoulder_pitch_joint" value="-1.2" />
+        <joint name="left_arm_shoulder_roll_joint" value="-2.05" />
+        <joint name="left_arm_shoulder_yaw_joint" value="-1.82" />
+        <joint name="left_arm_wrist_pitch_joint" value="-0.95" />
+        <joint name="left_arm_wrist_roll_joint" value="-1.25" />
+        <joint name="right_arm_elbow_pitch_joint" value="-1.26" />
+        <joint name="right_arm_elbow_yaw_joint" value="-0.97" />
+        <joint name="right_arm_gripper_joint" value="0.002" />
+        <joint name="right_arm_shoulder_pitch_joint" value="-1.2" />
+        <joint name="right_arm_shoulder_roll_joint" value="2.05" />
+        <joint name="right_arm_shoulder_yaw_joint" value="1.82" />
+        <joint name="right_arm_wrist_pitch_joint" value="-0.95" />
+        <joint name="right_arm_wrist_roll_joint" value="1.25" />
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="left_eef" parent_link="left_arm_wrist_roll" group="left_arm" />
     <end_effector name="right_eef" parent_link="right_arm_wrist_roll" group="right_arm" />

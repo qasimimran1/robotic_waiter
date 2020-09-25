@@ -442,6 +442,28 @@
       </link>
       <pose>0.497681 0 0 0 -0 0</pose>
     </model>
+	
+	<include>
+      <name>table</name>
+      <pose>3 0 0.31 0 0 0</pose>
+      <uri>model://table_square</uri>
+    </include>
+
+	<include>
+      <name>tray</name>
+      <pose>2.95 0 0.6935 0 0 1.5708</pose>
+      <uri>model://tray1</uri>
+    </include>
+	
+	<include>
+      <name>table1</name>
+      <pose>5 -5 0.31 0 0 0</pose>
+      <uri>model://table_square</uri>
+    </include>
+
+	
+	
+	
     <state world_name='default'>
       <sim_time>0 0</sim_time>
       <real_time>0 44986</real_time>
@@ -456,9 +478,9 @@
         </link>
       </model>
       <model name='cube_20k'>
-        <pose>1.41131 -1 0 0 -0 0.9</pose>
+        <pose>2.124779 -1.633275 0 0 -0 0.9</pose>
         <link name='link'>
-          <pose>1.41131 -1 0.5 0 -0 0.9</pose>
+          <pose>2.124779 -1.633275 0.5 0 -0 0.9</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>

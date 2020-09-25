@@ -5,10 +5,10 @@
   <!--- Run gmapping -->
   <node pkg="gmapping" name="slam_gmapping" type="slam_gmapping" output="screen">
     <param name="delta" value="0.01"/>
-    <param name="xmin" value="-20"/>
-    <param name="xmax" value="20"/>
-    <param name="ymin" value="-20"/>
-    <param name="ymax" value="20"/>
+    <param name="xmin" value="-10"/>
+    <param name="xmax" value="10"/>
+    <param name="ymin" value="-10"/>
+    <param name="ymax" value="10"/>
     <remap from="scan" to="/phoebe/laser/scan"/>
     <param name="base_frame" value="base_footprint" />
 

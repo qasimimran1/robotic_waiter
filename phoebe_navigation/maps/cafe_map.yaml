@@ -1,0 +1,8 @@
+image: cafe.pgm
+resolution: 0.050000
+origin: [-15.400000, -13.800000, 0.000000]
+# origin: [-13.9500000, -12.3500000, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+

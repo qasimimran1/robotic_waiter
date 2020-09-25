@@ -26,7 +26,7 @@
         </constraints>
       </ode>
       <max_step_size>0.001</max_step_size>
-    </physics>
+    </physics>	
     <!-- A global light source -->
     <include>
       <uri>model://sun</uri>
@@ -37,7 +37,7 @@
     </include>
     <include>
       <uri>model://willowgarage</uri>
-      <pose>-16 -18 0 0 0 0</pose>
+      <pose>-15 -30 0 0 0 0</pose>
     </include>
   </world>
 </sdf>

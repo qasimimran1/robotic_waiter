@@ -7,4 +7,13 @@ global_costmap:
   transform_tolerance: 0.5
 
   static_map: true
+  
+  # static_map: false  
+  # rolling_window: true
+  # width: 5
+  # height: 5
+  
+  # plugins:
+     # - {name: static_layer,            type: "costmap_2d::StaticLayer"}
+     # - {name: inflation_layer,         type: "costmap_2d::InflationLayer"}
  

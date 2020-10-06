@@ -305,7 +305,7 @@
       </image>
       <clip>
         <near>0.08</near>
-        <far>3.5</far>
+        <far>5.0</far>
       </clip>
     </camera>
     <plugin name="xtion_link_controller" filename="libgazebo_ros_openni_kinect.so">
@@ -320,7 +320,7 @@
       <pointCloudTopicName>/xtion/depth/points</pointCloudTopicName>
       <frameName>xtion_optical_frame</frameName>
       <pointCloudCutoff>0.5</pointCloudCutoff>
-      <pointCloudCutoffMax>3.0</pointCloudCutoffMax>
+      <pointCloudCutoffMax>5.0</pointCloudCutoffMax>
       <distortionK1>0.00000001</distortionK1>
       <distortionK2>0.00000001</distortionK2>
       <distortionK3>0.00000001</distortionK3>

@@ -19,10 +19,10 @@
   
 <arg name="use_gui" default="false" />
   <!-- joint states being published by Gazebo will be used -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+ <!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="$(arg use_gui)"/>
     <rosparam param="source_list">[/joint_states]</rosparam>
-  </node>
+  </node> -->
 
   
 

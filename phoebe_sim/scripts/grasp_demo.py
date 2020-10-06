@@ -46,26 +46,26 @@ def move_group_interface():
     plan1= dual_arm_group.plan()
     rospy.sleep(0.5)
     dual_arm_group.go()
-    # print "...Home..."
-    # rospy.sleep(5)
+    print "...Home..."
+    rospy.sleep(1)
     
     
     
-    # dual_arm_group.set_named_target("both_grab3")
-    # plan1= dual_arm_group.plan()
-    # rospy.sleep(0.5)
-    # dual_arm_group.go()
-    # print "...Waiting to lift..."
-    # rospy.sleep(20)
+    dual_arm_group.set_named_target("both_grab3")
+    plan1= dual_arm_group.plan()
+    rospy.sleep(0.5)
+    dual_arm_group.go()
+    print "...Waiting to lift..."
+    rospy.sleep(20)
     
     
     
-    # dual_arm_group.set_named_target("both_lift")
-    # plan1= dual_arm_group.plan()
-    # rospy.sleep(0.5)
-    # dual_arm_group.go()
-    # print "...Home..."
-    # rospy.sleep(1)
+    dual_arm_group.set_named_target("both_lift")
+    plan1= dual_arm_group.plan()
+    rospy.sleep(0.5)
+    dual_arm_group.go()
+    print "...Lifted..."
+    rospy.sleep(1)
     
    
     # right_arm_group.set_named_target("right_grab")    

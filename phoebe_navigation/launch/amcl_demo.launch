@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="map_file" default="$(find phoebe_navigation)/maps/my_cafe_map.yaml"/>
+  <arg name="open_rviz" default="true"/>
+  
+  <arg name="cmd_vel_topic" default="/wheels_controller/cmd_vel" />
+  <arg name="scan_topic"     	default="/phoebe/laser/scan"/>
+  <arg name="odom_frame" default="odom" />
+  <arg name="move_forward_only" default="false"/>
+  
+
+  <!-- Map server -->  
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- Place map frame at odometry frame -->
+ <!--  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster"
+      args="0 0 0 0 0 0 map odom 800"/> -->
+
+  <!-- Localization -->
+   <!-- AMCL -->
+  <include file="$(find phoebe_navigation)/launch/amcl.launch"/>
+  
+
+  <!-- Move base -->
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <rosparam file="$(find phoebe_navigation)/config/costmap_common_params_phoebe.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find phoebe_navigation)/config/costmap_common_params_phoebe.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find phoebe_navigation)/config/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find phoebe_navigation)/config/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find phoebe_navigation)/config/base_local_planner_params.yaml" command="load" />
+	<rosparam file="$(find phoebe_navigation)/config/move_base_params.yaml" command="load" />
+    
+    <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+    <remap from="odom" to="$(arg odom_frame)"/>
+    <remap from="scan" to="$(arg scan_topic)"/>
+    <param name="move_base/DWAPlannerROS/yaw_goal_tolerance" value="0.1"/>
+    <param name="move_base/DWAPlannerROS/xy_goal_tolerance" value="0.1"/>
+  </node>
+  
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find phoebe_navigation)/rviz/phoebe_navigation.rviz"/>
+  </group>
+  
+
+
+</launch>
+
+

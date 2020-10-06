@@ -1,6 +1,6 @@
 
-# footprint: [[0.04,-0.422],[-0.278, -0.218], [-0.278, 0.218],[0.04,0.422], [0.278, 0.218], [0.278, -0.218]]
-robot_radius: 0.47
+footprint: [[0.045,-0.46],[-0.278, -0.218], [-0.278, 0.218],[0.045,0.46], [0.278, 0.218], [0.278, -0.218]]
+# robot_radius: 0.47
 
 
 # map_type: costmap
@@ -16,27 +16,37 @@ obstacle_layer:
   combination_method:   1 
   track_unknown_space:  true
   
-  obstacle_range: 3.0   #The "obstacle_range" parameter determines the maximum range sensor reading that will result in an obstacle being put into the costmap
-  raytrace_range: 4.0   # The "raytrace_range" parameter determines the range to which we will raytrace freespace given a sensor reading.
+  obstacle_range: 3.5   #The "obstacle_range" parameter determines the maximum range sensor reading that will result in an obstacle being put into the costmap
+  raytrace_range: 3.65   # The "raytrace_range" parameter determines the range to which we will raytrace freespace given a sensor reading.
   origin_z: 0.0
   z_resolution: 0.1125
   z_voxels: 16
   publish_voxel_map: ture #true needed for disabling global path planning through unknown space
   
+observation_sources: laser_scan_sensor  point_cloud_sensor
+
+# marking - add obstacle information to cost map
+# clearing - clear obstacle information to cost map
+laser_scan_sensor: #{sensor_frame: hokuyo_link, data_type: LaserScan, topic: /phoebe/laser/scan,  marking: true, clearing: true, min_obstacle_height: -0.10, max_obstacle_height: 2.5}
+    data_type: LaserScan
+    topic: /phoebe/laser/scan
+    marking: true
+    clearing: true
+    min_obstacle_height: -0.15
+    max_obstacle_height: 2.5
+point_cloud_sensor: #{sensor_frame: xtion_optical_frame, data_type: PointCloud2, topic: /xtion/depth/points,  marking: true, clearing: true, min_obstacle_height: 0.08, max_obstacle_height: 2.5}
+    data_type: PointCloud2
+    topic: /xtion/depth/points
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.08
+    max_obstacle_height: 2.5
 
 inflation_layer:
   enabled:              true 
   cost_scaling_factor:  5.0 # exponential rate at which the obstacle cost drops off (default: 10)
   inflation_radius:     0.35   # max. distance from an obstacle at which costs are incurred for planning paths.
-  
 
-observation_sources: laser_scan_sensor  point_cloud_sensor
-
-# marking - add obstacle information to cost map
-# clearing - clear obstacle information to cost map
-laser_scan_sensor: {sensor_frame: hokuyo_link, data_type: LaserScan, topic: /phoebe/laser/scan,  marking: true, clearing: true, min_obstacle_height: -0.10, max_obstacle_height: 2.5}
-
-point_cloud_sensor: {sensor_frame: xtion_optical_frame, data_type: PointCloud2, topic: /xtion/depth/points,  marking: true, clearing: true, min_obstacle_height: 0.08, max_obstacle_height: 2.5}
 
 static_layer:
   enabled:              true

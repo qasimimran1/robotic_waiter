@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import roslib
-roslib.load_manifest('my_dynamixel_tutorial')
+
 
 import rospy
 import actionlib

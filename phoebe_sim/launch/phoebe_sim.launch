@@ -4,21 +4,23 @@
 	<arg name="gui" 						default="true"/>
 	<arg name="headless" 			default="false"/>
 	<arg name="debug" 				default="false"/>
-	<arg name="x" 						default="0.0" />
-	<arg name="y" 						default="-5.0" />
+	<arg name="x" 						default="2.38" />  <!--2.38 -->
+	<arg name="y" 						default="0.0" />  <!-- 0.8  -5.0 -->
 	<arg name="z" 							default="0.0" />
 	<arg name="roll" 						default="0.000"/>
 	<arg name="pitch" 					default="0.000"/>
-	<arg name="yaw" 					default="1.5708"/>   <!--  -1.5780  -->
+	<arg name="yaw" 					default="0.0"/>   <!--  -1.5780  -->
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/> -->
+	<arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/>  
+	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/demo_world.world"/> -->
+	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/pr2_perception.world"/> -->
 	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/turtlebot_playground.world"/> -->
 	<!-- <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/turtlebot3_world.world"/> -->
 	<!-- <arg name="world_name" value="$(find phoebe_sim)/worlds/willow_garage.world"/> -->
 	<!-- <arg name="world_name" value="$(find phoebe_sim)/worlds/empty_cafe.world"/> -->
-	<arg name="world_name" value="$(find phoebe_sim)/worlds/cafe.world"/>
+	<!-- <arg name="world_name" value="$(find phoebe_sim)/worlds/cafe.world"/> -->
     <!-- <arg name="world_name" 		value="$(find rrbot_gazebo)/worlds/rrbot.world"/> -->
     <arg name="debug" 				value="$(arg debug)" />
     <arg name="gui" 						value="$(arg gui)" />
@@ -75,8 +77,8 @@
   <!-- both arms down initially -->
   <!-- <node name  = "arms_down" pkg = "phoebe_sim" type = "arms_down.py"/> -->
   <!-- Show in Rviz   -->
-  <!-- <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find phoebe_sim)/launch/phoebe_nav.rviz" required="true"/>    -->
-  <!-- phoebe.rviz -->
+  <!-- <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find phoebe_sim)/launch/phoebe.rviz" required="true"/>    -->
+  <!--  phoebe_nav.rviz -->
 
 
 </launch>

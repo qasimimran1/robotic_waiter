@@ -1,0 +1,13 @@
+<launch>
+   <arg name="cloud_topic" default="/xtion/depth/points" />
+
+  <!-- Start Perception -->
+  <node name="basic_grasping_perception" pkg="simple_grasping" type="basic_grasping_perception" >
+    <rosparam command="load" file="$(find phoebe_sim)/config/simple_grasping.yaml" />
+	<remap from="/head_camera/depth_registered/points" to="$(arg cloud_topic)"/>
+  </node>
+
+  <!-- Drive to the table, pick stuff up -->
+  <node name="demo" pkg="phoebe_sim" type="demo.py" output="screen" />   <!-- demo  pick_and_place -->
+
+</launch>

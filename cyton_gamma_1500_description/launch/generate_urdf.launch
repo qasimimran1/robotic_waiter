@@ -1,4 +1,0 @@
-<launch>
-        <!-- Generates the URDF, useful for incorporating the manipulator in your own robot description -->
-        <node name="xacro" pkg="xacro" type="xacro" args="-o $(find cyton_gamma_1500_description)/myTestRobot.urdf $(find cyton_gamma_1500_description)/testRobot.urdf.xacro" />
-</launch>

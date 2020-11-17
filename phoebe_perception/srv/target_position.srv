@@ -1,0 +1,4 @@
+#request not required
+---
+#response position of left and right handles
+geometry_msgs/Point[2] points

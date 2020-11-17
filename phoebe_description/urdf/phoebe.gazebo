@@ -166,34 +166,7 @@
       <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
 	  <mechanicalReduction>1.0</mechanicalReduction>
     </actuator>
-  </transmission>
-  
-  
-  <transmission name="ptu_pan_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="ptu_pan_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="ptu_pan_joint_motor">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </actuator>
-	<actuator name="ptu_pan_joint_motor">
-      <mechanicalReduction>1.0</mechanicalReduction>
-    </actuator>
-  </transmission>
-  
-  
-  <transmission name="ptu_tilt_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="ptu_tilt_joint">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="ptu_tilt_joint_motor">
-      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-	  <mechanicalReduction>1.0</mechanicalReduction>
-    </actuator>
-  </transmission>
-  
+  </transmission> 
   
 <!-- hokuyo Laser-->
   <gazebo reference="hokuyo_link">

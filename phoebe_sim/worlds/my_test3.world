@@ -103,7 +103,7 @@
 	<include>
       <name>tray</name>
       <pose>2.95 0 0.6935 0 0 1.5708</pose>
-      <uri>model://tray1</uri>
+      <uri>model://tray_mod</uri>
     </include>
 	
 	<include>

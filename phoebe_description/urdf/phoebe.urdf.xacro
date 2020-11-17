@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="phoebe">
- <!-- <xacro:include filename="$(find cyton_gamma_1500_minicam_description)/cyton_gamma_1500_minicam_macros.urdf.xacro" /> -->
-  <xacro:include filename="$(find cyton_gamma_1500_description)/urdf/cyton_gamma_1500_macros.urdf.xacro" />
-  <xacro:include filename="$(find dp_ptu_46_description)/dp_ptu_46_macros.urdf.xacro" />
+ 
+  <xacro:include filename="$(find phoebe_description)/urdf/cyton_gamma_1500_macros.urdf.xacro" />
+  <xacro:include filename="$(find phoebe_description)/urdf/dp_ptu_46_macros.urdf.xacro" />
   <xacro:include filename="$(find phoebe_description)/urdf/phoebe.gazebo" />
   
   <link name="base_footprint"/>

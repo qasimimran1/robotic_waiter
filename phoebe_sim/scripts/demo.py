@@ -29,23 +29,31 @@
 # Author: Michael Ferguson
 # Author: Di Sun
 
-import copy
+import rospy, sys
+from copy import deepcopy
 import actionlib
-import rospy
+
 
 from math import sin, cos
-from moveit_python import (MoveGroupInterface,
-                           PlanningSceneInterface,
-                           PickPlaceInterface)
-from moveit_python.geometry import rotate_pose_msg_by_euler_angles
+
 
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
 from control_msgs.msg import PointHeadAction, PointHeadGoal
-from grasping_msgs.msg import FindGraspableObjectsAction, FindGraspableObjectsGoal
-from geometry_msgs.msg import PoseStamped
+# from grasping_msgs.msg import FindGraspableObjectsAction, FindGraspableObjectsGoal
+
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-from moveit_msgs.msg import PlaceLocation, MoveItErrorCodes
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+
+from geometry_msgs.msg import PoseStamped, Pose, Point
+from moveit_commander import MoveGroupCommander, PlanningSceneInterface
+
+from moveit_msgs.msg import (Grasp, GripperTranslation, MoveItErrorCodes, PlanningScene, ObjectColor,PlaceLocation)
+
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from tf.transformations import quaternion_from_euler
+
+from phoebe_perception.srv import target_position, target_positionResponse, target_positionRequest
+
 
 # Move base using navigation stack
 class MoveBaseClient(object):
@@ -95,201 +103,281 @@ class FollowTrajectoryClient(object):
     self.client.send_goal(follow_goal)
     self.client.wait_for_result()
 
-# Point the head using controller
-class PointHeadClient(object):
-
-  def __init__(self):
-    self.client = actionlib.SimpleActionClient("head_controller/point_head", PointHeadAction)
-    rospy.loginfo("Waiting for head_controller...")
-    self.client.wait_for_server()
-
-  def look_at(self, x, y, z, frame, duration=1.0):
-    goal = PointHeadGoal()
-    goal.target.header.stamp = rospy.Time.now()
-    goal.target.header.frame_id = frame
-    goal.target.point.x = x
-    goal.target.point.y = y
-    goal.target.point.z = z
-    goal.min_duration = rospy.Duration(duration)
-    self.client.send_goal(goal)
-    self.client.wait_for_result()
-
 # Tools for grasping
 class GraspingClient(object):
 
   def __init__(self):
-    self.scene = PlanningSceneInterface("base_footprint")
-    self.pickplace = PickPlaceInterface("right_arm", "right_gripper", verbose=True, plan_only = False)
-    self.move_group = MoveGroupInterface("right_arm", "base_footprint", plan_only = False)
+    self.scene = PlanningSceneInterface()
+    # self.pickplace = PickPlaceInterface("right_arm", "right_gripper", verbose=True, plan_only = False)
+    # self.move_group = MoveGroupInterface("right_arm", "base_footprint", plan_only = False)
 
-    find_topic = "basic_grasping_perception/find_objects"
-    rospy.loginfo("Waiting for %s..." % find_topic)
-    self.find_client = actionlib.SimpleActionClient(find_topic, FindGraspableObjectsAction)
-    self.find_client.wait_for_server()
+    self.left_arm       =  MoveGroupCommander("left_arm")
+    # rospy.sleep(6.0) 
+    self.right_arm      =  MoveGroupCommander("right_arm")
+    # rospy.sleep(6.0)
+    self.dual_arm_group = MoveGroupCommander("dual_arm")
+    # rospy.sleep(6.0)
+    self.grippers       =  MoveGroupCommander("grippers")
 
-  def updateScene(self):
-    # find objects
-    goal = FindGraspableObjectsGoal()
-    goal.plan_grasps = True
-    self.find_client.send_goal(goal)
-    self.find_client.wait_for_result(rospy.Duration(5.0))
-    find_result = self.find_client.get_result()
-    # Display the number of objects found
-    # Display the number of objects found
-    rospy.loginfo("Found %d objects" % len(find_result.objects))
+    self.get_position_client = rospy.ServiceProxy('get_position', target_position)
+    # self.done_r = False
+
+
+  def get_dual_trajectory(self, r_joints):  #this method takes trajectory of righ arm and maps it for left arm inverting the mirror joints
+    l_joints = []
+    pos = 1
+    for i in r_joints:
+      if pos % 2== 0:
+        l_joints.append(i)
+      else:
+        l_joints.append(-i)
+
+      pos += 1
+
+    d_joints = l_joints + list(r_joints)
+      
+    return d_joints   
+
+
+  def get_translations(self, current_pos):
+    ideal_x     = 0.515000#0.515
+    ideal_y     = 0.250500
+    ideal_z     = 0.713000 #0.7262
+
+    trans       = Point()
+    trans.x     = current_pos.x - ideal_x
+    trans.y     = current_pos.y + ideal_y
+    trans.z     = current_pos.z - ideal_z
+    
+    return trans
+
+  def dual_arm_set_named_target(self, named_target):
+    self.dual_arm_group.set_named_target(named_target)
+    plan1 = self.dual_arm_group.plan()
+    rospy.sleep(2)
+    # print("dual_arm plan1", plan1)
+    move_success = self.dual_arm_group.go()
+    return move_success
+    # print "...Both Done..."
+    # rospy.sleep(1)
+
+
+  def pick_tray(self):
+    self.dual_arm_set_named_target("both_home")
+    try:
+      rospy.wait_for_service('get_position', timeout=5)
+      res = self.get_position_client()
+      left_handle = res.points[0]
+      right_handle = res.points[1]
+
+      print('left_handle', left_handle, 'right_handle', right_handle)
+      # left_arm_group.set_position_target(pose_target_l)
+
+      pose_target_l = Pose()
+      pose_target_r = Pose()
+
+      pose_target_r.position = right_handle;
+      translation = self.get_translations(right_handle)
+      # pose_target_r.position.x -= 0.065
+      pose_target_r.position.x -= translation.x
+
+      print("translation.x", translation.x)
+      pose_target_r.position.y -= translation.y
+      pose_target_r.position.z -= translation.z
+      # pose_target_r.position.z = 0.7235
+      
+
+
+      # q = quaternion_from_euler(-1.57, 0, -1.57) # This works from 2.35 : Gripper paraller to x-axis
+      q = quaternion_from_euler(-1.57, 1.57, -1.57) # This work from 2.35 : Gripper Vertical to x-axis   (-2.36, 1.5708, -2.36)
+      pose_target_r.orientation.x = q[0]
+      pose_target_r.orientation.y = q[1]
+      pose_target_r.orientation.z = q[2]
+      pose_target_r.orientation.w = q[3]
+      
+      # print ("pose_target_r",pose_target_r )
+
+
+      self.right_arm.set_pose_target(pose_target_r)
+      self.right_arm.set_planning_time(10)
+      plan1 = self.right_arm.plan()
+
+
+      # if self.done_r == False :        
+      if (plan1.joint_trajectory.points) :  # True if trajectory contains points          
+        r_joints = plan1.joint_trajectory.points[-1].positions          
+        d_joints = self.get_dual_trajectory(r_joints)
+
+        self.dual_arm_group.set_joint_value_target(d_joints)
+        plan2 = self.dual_arm_group.plan()
+
+        if (plan2.joint_trajectory.points) :
+          move_success = self.dual_arm_group.execute(plan2, wait = True)
+
+          if move_success == True:
+            rospy.sleep(2)
+            self.right_arm.set_start_state_to_current_state()
+            self.left_arm.set_start_state_to_current_state()
+            waypoints_l =[]
+            waypoints = []
+            wpose = self.right_arm.get_current_pose().pose
+            wpose_l = self.left_arm.get_current_pose().pose
+            print("wpose", wpose)
+            # Open the gripper to the full position
+            self.grippers.set_named_target("both_open")
+            self.grippers.plan()
+            self.grippers.go()
+            # Create Cartesian Path to move forward mainting the end-effector pose
+            
+            if(translation.x >= 0.0505):
+              wpose.position.x    += (translation.x + 0.000)  # move forward in (x)
+              wpose_l.position.x  += (translation.x + 0.002)
+              wpose_l.position.z  += 0.001
+            
+            else:
+              wpose.position.x    += 0.052  # move forward in (x)
+              wpose_l.position.x  += 0.054
+              wpose_l.position.z  += 0.001
+
+            waypoints.append(deepcopy(wpose))
+            (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                                   waypoints,   # waypoints to follow
+                                   0.01,        # eef_step
+                                   0.0)
+
+
+            waypoints_l.append(deepcopy(wpose_l))
+            (plan_l, fraction) = self.left_arm.compute_cartesian_path(
+                                   waypoints_l,   # waypoints to follow
+                                   0.01,        # eef_step
+                                   0.0)
+            
+           
+            rospy.sleep(1)
+            if plan1.joint_trajectory.points:
+              move_success = self.right_arm.execute(plan1, wait=True)
+              if move_success == True:
+                rospy.loginfo ("Right Move forward successful")
+                
+
+            if plan_l.joint_trajectory.points:
+              move_success_l = self.left_arm.execute(plan_l, wait=True)
+              if move_success_l == True:
+                rospy.loginfo ("Left Move forward successful")
+                # done_r = True
+
+            if move_success == True and move_success_l == True:
+              rospy.sleep(1)
+              self.grippers.set_named_target("both_close")
+              self.grippers.plan()
+              self.grippers.go()
+              # rospy.sleep(1)
+
+              waypoints = []
+              rospy.sleep(1)
+              wpose = self.right_arm.get_current_pose().pose
+              # q = quaternion_from_euler(-1.57, 1.57, -1.57) # wrist up 5 degrees = 1.66 10deg = 1.75
+              # wpose.orientation.x = q[0]
+              # wpose.orientation.y = q[1]
+              # wpose.orientation.z = q[2]
+              # wpose.orientation.w = q[3]
+              wpose.position.z += 0.075  # move up in (z)
+              waypoints.append(deepcopy(wpose))
+              (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                                 waypoints,   # waypoints to follow
+                                 0.01,        # eef_step
+                                 0.0)
+
+              if plan1.joint_trajectory.points:
+
+                r_joints = plan1.joint_trajectory.points[-1].positions                          
+                d_joints = self.get_dual_trajectory(r_joints)                
+                self.dual_arm_group.set_joint_value_target(d_joints)                
+                plan2 = self.dual_arm_group.plan()
+                if (plan2.joint_trajectory.points) :
+
+                  move_success = self.dual_arm_group.go()
+                  print("move_success", move_success)
+
+    except rospy.ROSException:
+      rospy.logerr('get_position_server did not respond in 5 sec')
+      return
+
+    return move_success  
+
+  def place_tray(self):
+    waypoints = []    
+    wpose = self.right_arm.get_current_pose().pose
+    # q = quaternion_from_euler(-1.57, 1.57, -1.57) # wrist up 5 degrees = 1.66 10deg = 1.75
+    # wpose.orientation.x = q[0]
+    # wpose.orientation.y = q[1]
+    # wpose.orientation.z = q[2]
+    # wpose.orientation.w = q[3]
+    wpose.position.z -= 0.072  # move up in (z)
+    waypoints.append(deepcopy(wpose))
+    (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                       waypoints,   # waypoints to follow
+                       0.01,        # eef_step
+                       0.0)
+
+    if plan1.joint_trajectory.points:
+
+      r_joints = plan1.joint_trajectory.points[-1].positions                          
+      d_joints = self.get_dual_trajectory(r_joints)                
+      self.dual_arm_group.set_joint_value_target(d_joints)                
+      plan2 = self.dual_arm_group.plan()
+      if (plan2.joint_trajectory.points) :
+
+        move_success = self.dual_arm_group.go()
+        print("move_success", move_success)
+
+        self.grippers.set_named_target("both_open")
+        self.grippers.plan()
+        self.grippers.go()
+
+        waypoints_l =[]
+        waypoints   = []
+        wpose   = self.right_arm.get_current_pose().pose
+        wpose_l = self.left_arm.get_current_pose().pose
+
+        wpose.position.x    -= 0.051  # move backward in (x)
+        wpose_l.position.x  -= 0.053
+        # wpose_l.position.z  += 0.001
+
+        waypoints.append(deepcopy(wpose))
+        (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                               waypoints,   # waypoints to follow
+                               0.01,        # eef_step
+                               0.0)
+
+
+        waypoints_l.append(deepcopy(wpose_l))
+        (plan_l, fraction) = self.left_arm.compute_cartesian_path(
+                               waypoints_l,   # waypoints to follow
+                               0.01,        # eef_step
+                               0.0)
+              
+             
+        rospy.sleep(1)
+        if plan1.joint_trajectory.points:
+          move_success = self.right_arm.execute(plan1, wait=True)
+          if move_success == True:
+            rospy.loginfo ("Right Move forward successful")
+            
+
+        if plan_l.joint_trajectory.points:
+          move_success_l = self.left_arm.execute(plan_l, wait=True)
+          if move_success_l == True:
+            rospy.loginfo ("Left Move forward successful")
+                  # done_r = True  
         
-    rospy.loginfo("Found %d Support Surfaces" % len(find_result.support_surfaces))
+        move_success = self.dual_arm_set_named_target("both_down")
+        
 
-    # remove previous objects
-    # for name in self.scene.getKnownCollisionObjects():
-        # self.scene.removeCollisionObject(name, False)
-    # for name in self.scene.getKnownAttachedObjects():
-        # self.scene.removeAttachedObject(name, False)
-    # self.scene.waitForSync()
+    return move_success     
 
-    # insert objects to scene
-    objects = list()
-    idx = -1
-    for obj in find_result.objects:
-      idx += 1
-      obj.object.name = "object%d"%idx
-      self.scene.addSolidPrimitive(obj.object.name,
-                                   obj.object.primitives[0],
-                                   obj.object.primitive_poses[0],
-                                   )#wait = False
-      if obj.object.primitive_poses[0].position.x < 0.85:
-        objects.append([obj, obj.object.primitive_poses[0].position.z])
-        # Get the size of the target
-        target_size = obj.object.primitives[0].dimensions
-        print("size of object", target_size )
 
-    for obj in find_result.support_surfaces:
-      # extend surface to floor, and make wider since we have narrow field of view
-      # height = obj.primitive_poses[0].position.z
-      # obj.primitives[0].dimensions = [obj.primitives[0].dimensions[0],
-                                      # 1.5,  # wider
-                                      # obj.primitives[0].dimensions[2] + height]
-      # obj.primitive_poses[0].position.z += -height/2.0
-
-      # add to scene
-      self.scene.addSolidPrimitive(obj.name,
-                                   obj.primitives[0],
-                                   obj.primitive_poses[0],
-                                   )#wait = False
-                                   
-      # Get the table dimensions
-      table_size = obj.primitives[0].dimensions
-      print("size of table", table_size )
-    self.scene.waitForSync()
-
-    # store for grasping
-    #self.objects = find_result.objects
-    self.surfaces = find_result.support_surfaces
-
-    # store graspable objects by Z
-    objects.sort(key=lambda object: object[1])
-    objects.reverse()
-    self.objects = [object[0] for object in objects]
     
-    
-    
-    
-    # for object in objects:
-       # print(object[0].object.name, object[1])
-    #exit(-1)
-
-  def getGraspableObject(self):
-    graspable = None
-    for obj in self.objects:
-      # need grasps
-      if len(obj.grasps) < 1:
-        rospy.logwarn("Grasp Not Possible")
-        continue
-      # check size
-      if obj.object.primitives[0].dimensions[0] < 0.03 or \
-       obj.object.primitives[0].dimensions[0] > 0.25 or \
-       obj.object.primitives[0].dimensions[0] < 0.03 or \
-       obj.object.primitives[0].dimensions[0] > 0.25 or \
-       obj.object.primitives[0].dimensions[0] < 0.03 or \
-       obj.object.primitives[0].dimensions[0] > 0.25:
-        rospy.logwarn("Size Error")
-        continue
-      # has to be on table
-      # if obj.object.primitive_poses[0].position.z < 0.5:
-      #   rospy.logwarn("Hight Error")
-      #   continue
-      print obj.object.primitive_poses[0], obj.object.primitives[0]
-      return obj.object, obj.grasps
-    # nothing detected
-    return None, None
-
-  def getSupportSurface(self, name):
-    for surface in self.support_surfaces:
-      if surface.name == name:
-        return surface
-    return None
-
-  def getPlaceLocation(self):
-      pass
-
-  def pick(self, block, grasps):
-    success, pick_result = self.pickplace.pick_with_retry(block.name,
-                                                          grasps,
-                                                          support_name=block.support_surface,
-                                                          scene=self.scene)
-    self.pick_result = pick_result
-    return success
-
-  def place(self, block, pose_stamped):
-    places = list()
-    l = PlaceLocation()
-    l.place_pose.pose = pose_stamped.pose
-    l.place_pose.header.frame_id = pose_stamped.header.frame_id
-
-    # copy the posture, approach and retreat from the grasp used
-    l.post_place_posture = self.pick_result.grasp.pre_grasp_posture
-    l.pre_place_approach = self.pick_result.grasp.pre_grasp_approach
-    l.post_place_retreat = self.pick_result.grasp.post_grasp_retreat
-    places.append(copy.deepcopy(l))
-    # create another several places, rotate each by 360/m degrees in yaw direction
-    m = 16 # number of possible place poses
-    pi = 3.141592653589
-    for i in range(0, m-1):
-      l.place_pose.pose = rotate_pose_msg_by_euler_angles(l.place_pose.pose, 0, 0, 2 * pi / m)
-      places.append(copy.deepcopy(l))
-
-    success, place_result = self.pickplace.place_with_retry(block.name,
-                                                            places,
-                                                            scene=self.scene)
-    return success
-
-  def tuck(self):
-    joints = ["shoulder_pan_joint", "shoulder_lift_joint", "upperarm_roll_joint",
-              "elbow_flex_joint", "forearm_roll_joint", "wrist_flex_joint", "wrist_roll_joint"]
-    pose = [1.32, 1.40, -0.2, 1.72, 0.0, 1.66, 0.0]
-    while not rospy.is_shutdown():
-      result = self.move_group.moveToJointPosition(joints, pose, 0.02)
-      if result.error_code.val == MoveItErrorCodes.SUCCESS:
-        return
-
-  
-  def stow(self):
-    joints = ["shoulder_pan_joint", "shoulder_lift_joint", "upperarm_roll_joint",
-              "elbow_flex_joint", "forearm_roll_joint", "wrist_flex_joint", "wrist_roll_joint"]
-    pose = [1.32, 0.7, 0.0, -2.0, 0.0, -0.57, 0.0]
-    while not rospy.is_shutdown():
-      result = self.move_group.moveToJointPosition(joints, pose, 0.02)
-      if result.error_code.val == MoveItErrorCodes.SUCCESS:
-        return
-
-  def intermediate_stow(self):
-      joints = ["shoulder_pan_joint", "shoulder_lift_joint", "upperarm_roll_joint",
-                "elbow_flex_joint", "forearm_roll_joint", "wrist_flex_joint", "wrist_roll_joint"]
-      pose = [0.7, -0.3, 0.0, -0.3, 0.0, -0.57, 0.0]
-      while not rospy.is_shutdown():
-        result = self.move_group.moveToJointPosition(joints, pose, 0.02)
-        if result.error_code.val == MoveItErrorCodes.SUCCESS:
-          return
 
 if __name__ == "__main__":
   # Create a node
@@ -300,10 +388,28 @@ if __name__ == "__main__":
     pass
 
   # Setup clients
-  # move_base = MoveBaseClient()
-  ptu_action = FollowTrajectoryClient("ptu_controller", ["ptu_pan_joint", "ptu_tilt_joint"])
-  # head_action = PointHeadClient()
+  move_base = MoveBaseClient()
+  rospy.sleep(1)
+  ptu_action = FollowTrajectoryClient("ptu_controller", ["ptu_pan_joint", "ptu_tilt_joint"])  
+  rospy.sleep(5.0)
+
   grasping_client = GraspingClient()
+  rospy.sleep(1)
+  # grasping_client.dual_arm_set_named_target("both_down")
+
+  ns = rospy.get_namespace()
+  print("namespace", ns)
+
+  rospy.sleep(1)
+  
+
+  ptu_action.move_to([0.0, -0.02,])
+
+  # move_base.goto(2.0, 5.35, 1.5708)
+
+
+
+
   
   #Move arms down
   # grasping_client.stow()
@@ -320,36 +426,44 @@ if __name__ == "__main__":
 
   # Point the head at the cube we want to pick
   # head_action.look_at(3.7, 3.18, 0.0, "map")
-  ptu_action.move_to([0.0, -0.70,]  )
+  ptu_action.move_to([0.0, -0.70,])
+  # tray_lift = grasping_client.pick_tray()
+  # if tray_lift:
+  #   rospy.sleep(1)
+  #   tray_place = grasping_client.place_tray()
+  #   print("tray_place", tray_place)
+  
   obj_in_gripper = False
   
 
   while not rospy.is_shutdown():
+    rospy.sleep(1)
+
     # ptu_action.move_to(0.0, -0.75,  "base_footprint")
 
     # Get block to pick
-    fail_ct = 0
-    while not rospy.is_shutdown() and not obj_in_gripper:
-      rospy.loginfo("Picking object...")
-      grasping_client.updateScene()
-      cube, grasps = grasping_client.getGraspableObject()
-      if cube == None:
-        rospy.logwarn("Perception failed.")
-        # grasping_client.intermediate_stow()
-        # grasping_client.stow()
-        # head_action.look_at(1.2, 0.0, 0.0, "base_link")
-        continue
+    # fail_ct = 0
+    # while not rospy.is_shutdown() and not obj_in_gripper:
+    #   rospy.loginfo("Picking object...")
+    #   grasping_client.updateScene()
+    #   cube, grasps = grasping_client.getGraspableObject()
+    #   if cube == None:
+    #     rospy.logwarn("Perception failed.")
+    #     # grasping_client.intermediate_stow()
+    #     # grasping_client.stow()
+    #     # head_action.look_at(1.2, 0.0, 0.0, "base_link")
+    #     continue
 
-      # Pick the block
-      if grasping_client.pick(cube, grasps):
-        obj_in_gripper = True
-        break
-      rospy.logwarn("Grasping failed.")
-      # grasping_client.stow()
-      if fail_ct > 15:
-        fail_ct = 0
-        break
-      fail_ct += 1
+    #   # Pick the block
+    #   if grasping_client.pick(cube, grasps):
+    #     obj_in_gripper = True
+    #     break
+    #   rospy.logwarn("Grasping failed.")
+    #   # grasping_client.stow()
+    #   if fail_ct > 15:
+    #     fail_ct = 0
+    #     break
+    #   fail_ct += 1
 
       # Tuck the arm
       #grasping_client.tuck()
@@ -388,5 +502,5 @@ if __name__ == "__main__":
       # Tuck the arm, lower the torso
       # grasping_client.intermediate_stow()
       # grasping_client.stow()
-      rospy.loginfo("Finished")
+      # rospy.loginfo("Finished")
       #torso_action.move_to([0.0, ])

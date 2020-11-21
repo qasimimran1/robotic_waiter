@@ -3,7 +3,7 @@
 import rospy, sys
 import moveit_commander
 import geometry_msgs.msg
-from geometry_msgs.msg import PoseStamped, Pose
+from geometry_msgs.msg import PoseStamped, Pose, Point
 from moveit_commander import MoveGroupCommander, PlanningSceneInterface
 from moveit_msgs.msg import PlanningScene, ObjectColor
 from moveit_msgs.msg import Grasp, GripperTranslation, MoveItErrorCodes
@@ -39,7 +39,7 @@ def get_translations(current_pos):
 	ideal_y 		= 0.250500
 	ideal_z 		= 0.713000 #0.7262
 
-	trans 			= geometry_msgs.msg.Point()
+	trans 			= Point()
 	trans.x 		= current_pos.x - ideal_x
 	trans.y 		= current_pos.y + ideal_y
 	trans.z 		= current_pos.z - ideal_z   
@@ -48,26 +48,26 @@ def get_translations(current_pos):
 
 
 def main():
-	moveit_commander.roscpp_initialize(sys.argv)
+	# moveit_commander.roscpp_initialize(sys.argv)
 	rospy.init_node('get_position_client')
 
-	scene = moveit_commander.PlanningSceneInterface()
+	scene = PlanningSceneInterface()
 
 	objects = scene.get_known_object_names()
 
 	# print("objects", objects)
 
 	# print("scene", scene)
-	left_arm =  moveit_commander.MoveGroupCommander("left_arm")
+	left_arm =  MoveGroupCommander("left_arm")
 	# left_gripper_group =  moveit_commander.MoveGroupCommander("left_gripper")
 
-	right_arm =  moveit_commander.MoveGroupCommander("right_arm")
+	right_arm =  MoveGroupCommander("right_arm")
 	# right_gripper =  moveit_commander.MoveGroupCommander("right_gripper")
 
 
-	dual_arm_group = moveit_commander.MoveGroupCommander("dual_arm")
+	dual_arm_group = MoveGroupCommander("dual_arm")
 
-	grippers =  moveit_commander.MoveGroupCommander("grippers")
+	grippers =  MoveGroupCommander("grippers")
 
 	get_position = rospy.ServiceProxy('get_position', target_position)
 	rate = rospy.Rate(2.0)
@@ -126,8 +126,8 @@ def main():
 			print('left_handle', left_handle, 'right_handle', right_handle)
 			# left_arm_group.set_position_target(pose_target_l)
 
-			pose_target_l = geometry_msgs.msg.Pose()
-			pose_target_r = geometry_msgs.msg.Pose()
+			pose_target_l = Pose()
+			pose_target_r = Pose()
 
 			# pose_target_l.position = left_handle;
 			# pose_target_l.position.x -= 0.06
@@ -243,14 +243,14 @@ def main():
 								wpose_l.position.x 	+= 0.053
 								wpose_l.position.z 	+= 0.001
 
-							waypoints.append(copy.deepcopy(wpose))
+							waypoints.append(deepcopy(wpose))
 							(plan1, fraction) = right_arm.compute_cartesian_path(
 	                                   waypoints,   # waypoints to follow
 	                                   0.01,        # eef_step
 	                                   0.0)
 
 
-							waypoints_l.append(copy.deepcopy(wpose_l))
+							waypoints_l.append(deepcopy(wpose_l))
 							(plan_l, fraction) = left_arm.compute_cartesian_path(
 	                                   waypoints_l,   # waypoints to follow
 	                                   0.01,        # eef_step
@@ -292,7 +292,7 @@ def main():
 								# wpose.orientation.z = q[2]
 								# wpose.orientation.w = q[3]
 								wpose.position.z += 0.07  # move up in (z)
-								waypoints.append(copy.deepcopy(wpose))
+								waypoints.append(deepcopy(wpose))
 								(plan1, fraction) = right_arm.compute_cartesian_path(
 		                               waypoints,   # waypoints to follow
 		                               0.01,        # eef_step

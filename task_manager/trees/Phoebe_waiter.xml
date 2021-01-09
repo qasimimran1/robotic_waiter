@@ -1,0 +1,40 @@
+<root main_tree_to_execute = "MainTree">
+    <BehaviorTree ID="MainTree">
+        <!-- <Sequence>
+            <SetBlackboard output_key="Goal_a" value="1.6830;-0.1947;0.0" />
+            <SetBlackboard output_key="Goal_b" value="-0.4924;0.8746;-3.14" />
+            <SetBlackboard output_key="Goal_c" value="0.0;0.0;0.0" />
+            <Repeat num_cycles="10">
+                <Sequence>
+                    <SubTree ID="MoveRobot" target="Goal_a" />
+                    <SubTree ID="MoveRobot" target="Goal_b" />
+                </Sequence>
+            </Repeat>                
+        </Sequence> -->
+        <Sequence>
+            <SetBlackboard output_key="Goal_a" value="0.5;-0.2" />
+            <SetBlackboard output_key="Goal_b" value="-0.5;0.5" />
+            <SetBlackboard output_key="Goal_c" value="0.0;0.0" />
+            
+            <Repeat num_cycles="2">
+                <Sequence>
+                    <SubTree ID="Move_PTU" target="Goal_a" />
+                    <SubTree ID="Move_PTU" target="Goal_b" />
+                    <SubTree ID="Move_PTU" target="Goal_c" />
+                </Sequence>
+            </Repeat>                
+        </Sequence>
+    </BehaviorTree>
+
+    <!-- <BehaviorTree ID="MoveRobot">
+        <Sequence name="SetGoal">
+            <MoveBase goal="{target}" />
+        </Sequence>
+    </BehaviorTree> -->
+    <BehaviorTree ID="Move_PTU">
+        <Sequence name="PointPTU">
+            <MovePTU ptu_goal="{target}" />
+        </Sequence>
+    </BehaviorTree>
+    
+</root>

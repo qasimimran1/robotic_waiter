@@ -1,0 +1,8 @@
+<root>
+  <BehaviorTree ID="GoToTable">        
+      <Sequence>
+          <Action ID="goToTable"/>                
+      </Sequence>        
+  </BehaviorTree>
+
+</root>

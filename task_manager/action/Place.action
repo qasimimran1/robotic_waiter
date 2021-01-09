@@ -1,0 +1,8 @@
+#goal definition not using
+int32 dummy
+---
+#result definition RUNNING = 0, SUCCESS = 1, FAILURE = 2
+int32 status
+---
+#feedback
+int32 status 

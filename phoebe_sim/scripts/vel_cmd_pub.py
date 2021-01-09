@@ -55,31 +55,35 @@ pub = rospy.Publisher("/wheels_controller/cmd_vel", Twist, queue_size = 1)
 
 speed = Twist()
 
-rate = rospy.Rate(5)
+rate = rospy.Rate(10)
 
 goal = Point()
-goal.x = 1.5000
-goal.y = 0.0000
+goal.x = -1.5
+goal.y = 0.0
 done = False
 
-while not rospy.is_shutdown() or done == True:
+while not rospy.is_shutdown() or done == False:
     inc_x = goal.x -x
     inc_y = goal.y -y
     print"x: y:",x ,y
     print"theta: ", theta
 
-
-    angle_to_goal = atan2(inc_y, inc_x)
-    if abs(angle_to_goal) < 0.1:
-        angle_to_goal = 0
-    print "angle_to_goal" , angle_to_goal
-
-    if abs(angle_to_goal - theta) > 0.1:
-        speed.linear.x = 0.0
-        speed.angular.z = 0.2
+    if abs(inc_x) <= 0.005 and abs(inc_y) <= 0.005:
+        done = True
     else:
-        speed.linear.x = 0.2
-        speed.angular.z = 0.0
+        angle_to_goal = atan2(inc_y, inc_x)
+        round(angle_to_goal, 4)
+        print "angle_to_goal_before" , angle_to_goal
+        if abs(angle_to_goal) < 0.1 or (angle_to_goal >= -3.16 and angle_to_goal <= -3.12):
+            angle_to_goal = 0
+        print "angle_to_goal" , angle_to_goal
 
-    pub.publish(speed)
-    rate.sleep()
+        if abs(angle_to_goal - theta) > 0.1:
+            speed.linear.x = 0.0
+            speed.angular.z = 0.10
+        else:
+            speed.linear.x = 0.125
+            speed.angular.z = 0.0
+
+        pub.publish(speed)
+    rate.sleep()    

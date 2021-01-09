@@ -228,17 +228,17 @@
         <joint name="left_arm_gripper_joint" value="0.004" />
     </group_state>
     <group_state name="left_open" group="left_gripper">
-        <joint name="left_arm_gripper_joint" value="-0.0075" />
+        <joint name="left_arm_gripper_joint" value="-0.01" />
     </group_state>
     <group_state name="right_close" group="right_gripper">
         <joint name="right_arm_gripper_joint" value="0.004" />
     </group_state>
     <group_state name="right_open" group="right_gripper">
-        <joint name="right_arm_gripper_joint" value="-0.0075" />
+        <joint name="right_arm_gripper_joint" value="-0.01" />
     </group_state>
     <group_state name="both_open" group="grippers">
-        <joint name="left_arm_gripper_joint" value="-0.0075" />
-        <joint name="right_arm_gripper_joint" value="-0.0075" />
+        <joint name="left_arm_gripper_joint" value="-0.01" />
+        <joint name="right_arm_gripper_joint" value="-0.01" />
     </group_state>
     <group_state name="both_close" group="grippers">
         <joint name="left_arm_gripper_joint" value="0.004" />

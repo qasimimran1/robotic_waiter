@@ -140,7 +140,7 @@ class GraspingClient(object):
 
 
   def get_translations(self, current_pos):
-    ideal_x     = 0.515000#0.515
+    ideal_x     = 0.515000 #0.515
     ideal_y     = 0.250500
     ideal_z     = 0.713000 #0.7262
 
@@ -229,13 +229,13 @@ class GraspingClient(object):
             self.grippers.go()
             # Create Cartesian Path to move forward mainting the end-effector pose
             
-            if(translation.x >= 0.0505):
+            if(translation.x >= 0.0505 and translation.x <= 0.0535 ):
               wpose.position.x    += (translation.x + 0.000)  # move forward in (x)
               wpose_l.position.x  += (translation.x + 0.002)
               wpose_l.position.z  += 0.001
             
             else:
-              wpose.position.x    += 0.052  # move forward in (x)
+              wpose.position.x    += 0.0525  # move forward in (x)
               wpose_l.position.x  += 0.054
               wpose_l.position.z  += 0.001
 
@@ -313,7 +313,10 @@ class GraspingClient(object):
     # wpose.orientation.y = q[1]
     # wpose.orientation.z = q[2]
     # wpose.orientation.w = q[3]
-    wpose.position.z -= 0.072  # move up in (z)
+
+    print ("wpose.position.z" ,wpose.position.z)
+    wpose.position.z -= 0.060  # move down in (z)
+    print ("wpose.position.z after" ,wpose.position.z)
     waypoints.append(deepcopy(wpose))
     (plan1, fraction) = self.right_arm.compute_cartesian_path(
                        waypoints,   # waypoints to follow
@@ -340,8 +343,8 @@ class GraspingClient(object):
         wpose   = self.right_arm.get_current_pose().pose
         wpose_l = self.left_arm.get_current_pose().pose
 
-        wpose.position.x    -= 0.051  # move backward in (x)
-        wpose_l.position.x  -= 0.053
+        wpose.position.x    -= 0.05  # move backward in (x)
+        wpose_l.position.x  -= 0.05
         # wpose_l.position.z  += 0.001
 
         waypoints.append(deepcopy(wpose))
@@ -388,22 +391,22 @@ if __name__ == "__main__":
     pass
 
   # Setup clients
-  move_base = MoveBaseClient()
-  rospy.sleep(1)
+  # move_base = MoveBaseClient()
+  # rospy.sleep(1)
   ptu_action = FollowTrajectoryClient("ptu_controller", ["ptu_pan_joint", "ptu_tilt_joint"])  
-  rospy.sleep(5.0)
+  rospy.sleep(1.0)
 
   grasping_client = GraspingClient()
   rospy.sleep(1)
   # grasping_client.dual_arm_set_named_target("both_down")
 
-  ns = rospy.get_namespace()
-  print("namespace", ns)
+  # ns = rospy.get_namespace()
+  # print("namespace", ns)
 
-  rospy.sleep(1)
+  # rospy.sleep(1)
   
 
-  ptu_action.move_to([0.0, -0.02,])
+  # ptu_action.move_to([0.0, -0.02,])
 
   # move_base.goto(2.0, 5.35, 1.5708)
 
@@ -427,11 +430,11 @@ if __name__ == "__main__":
   # Point the head at the cube we want to pick
   # head_action.look_at(3.7, 3.18, 0.0, "map")
   ptu_action.move_to([0.0, -0.70,])
-  # tray_lift = grasping_client.pick_tray()
-  # if tray_lift:
-  #   rospy.sleep(1)
-  #   tray_place = grasping_client.place_tray()
-  #   print("tray_place", tray_place)
+  tray_lift = grasping_client.pick_tray()
+  if tray_lift:
+    rospy.sleep(1)
+    tray_place = grasping_client.place_tray()
+    print("tray_place", tray_place)
   
   obj_in_gripper = False
   

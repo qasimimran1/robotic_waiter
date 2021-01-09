@@ -4,7 +4,7 @@
 	<arg name="gui" 						default="true"/>
 	<arg name="headless" 			default="false"/>
 	<arg name="debug" 				default="false"/>
-	<arg name="x" 						default="0.0" />  <!--2.38 -->
+	<arg name="x" 						default="2.38" />  <!--2.38 -->
 	<arg name="y" 						default="0.0" />  <!-- 0.8  -5.0 -->
 	<arg name="z" 							default="0.0" />
 	<arg name="roll" 						default="0.000"/>
@@ -13,7 +13,7 @@
 
   <!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/>   -->
+	<arg name="world_name" 		value="$(find phoebe_sim)/worlds/my_test3.world"/>  
 	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/demo_world.world"/> -->
 	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/pr2_perception.world"/> -->
 	<!-- <arg name="world_name" 		value="$(find phoebe_sim)/worlds/turtlebot_playground.world"/> -->

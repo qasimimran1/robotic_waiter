@@ -41,9 +41,9 @@ gazebo_ros_control:
     # right_arm_gripper_joint2:            {p: 1000, d:  0.5, i:  0.1, i_clamp: 3} #*gripper_1_gains
 
     left_arm_gripper_joint:             &gripper_1_gains {p: 1000, d:  0.5, i:  0.1, i_clamp: 3}      
-    left_arm_gripper_joint2:            *gripper_1_gains    
-    right_arm_gripper_joint:            *gripper_1_gains #&gripper_2_gains {p: 10000, d: -0.01, i: 0.1, i_clamp: 3}      
-    right_arm_gripper_joint2:           *gripper_1_gains     
+    left_arm_gripper_joint2:            *gripper_1_gains #&gripper_2_gains {p: -1000, d: 0.5, i: 0.1, i_clamp: 3}    
+    right_arm_gripper_joint:           *gripper_1_gains #&gripper_2_gains {p: 10000, d: -0.01, i: 0.1, i_clamp: 3}      
+    right_arm_gripper_joint2:         *gripper_1_gains   #*gripper_2_gains  
       
 # # PTU    
     ptu_pan_joint:                      &ptu_gains {p: 100, d: 0.2, i: 0.1, i_clamp: 3, torque_clamp: 50}      

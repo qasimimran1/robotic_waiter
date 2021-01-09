@@ -23,9 +23,9 @@
 #include <pcl/point_types.h>
 
 //Service headers
-#include <phoebe_perception/target_position.h>
+// #include <phoebe_perception/target_position.h>
 //Message Publisher header: Uncomment for publishing
-// #include <phoebe_perception/target_pose.h>
+#include <phoebe_perception/target_pose.h>
 
 
 
@@ -36,11 +36,11 @@ public:
   GetHandlePosition()
   {
 
-    // object_pub = nh.advertise<sensor_msgs::PointCloud2>("object_cluster", 1);
-    // position_pub = nh.advertise<phoebe_perception::target_pose>("handles_position", 10);    
+    object_pub = nh.advertise<sensor_msgs::PointCloud2>("object_cluster", 1);
+    position_pub = nh.advertise<phoebe_perception::target_pose>("handles_position", 10);    
     cloud_topic = nh.param<std::string>("cloud_topic", "/xtion/depth/points");
-    // point_cloud_sub_ = nh.subscribe(cloud_topic, 1, &GetHandlePosition::processPointCloudCb, this);
-    position_server_ = nh.advertiseService("get_position", &GetHandlePosition::getPositionCb, this);
+    point_cloud_sub_ = nh.subscribe(cloud_topic, 1, &GetHandlePosition::processPointCloudCb, this);
+    // position_server_ = nh.advertiseService("get_position", &GetHandlePosition::getPositionCb, this);
 
 
 
@@ -62,7 +62,7 @@ public:
   }
 
 
-  bool getPositionCb(phoebe_perception::target_position::Request& req,
+  /* bool getPositionCb(phoebe_perception::target_position::Request& req,
                      phoebe_perception::target_position::Response& res)
   {
 
@@ -73,7 +73,7 @@ public:
     
     for (int i = 0; i < 3; ++i)
     {
-      processPointCloudCb();
+      // processPointCloudCb();
       lx += left.x;
       ly += left.y;
       lz += left.z;
@@ -97,12 +97,12 @@ public:
     res.points[0] = left_handle;
     res.points[1] = right_handle;
     return true;
-  }
+  } */
 
 
 
- // void processPointCloudCb(const sensor_msgs::PointCloud2::ConstPtr &msg) // Uncomment for subscriber and comment for service
-  void processPointCloudCb(void)  // Comment for Subscriber and uncomment for service
+ void processPointCloudCb(const sensor_msgs::PointCloud2::ConstPtr &msg) // Uncomment for subscriber and comment for service
+  // void processPointCloudCb(void)  // Comment for Subscriber and uncomment for service
   {        
       /*
        * LISTEN FOR POINTCLOUD For service call
@@ -158,7 +158,7 @@ public:
       getPositions(cloud_filtered); 
       
       // Convert to ROS sensor msg and publish
-      // publishPointCloud(cloud_filtered);
+      publishPointCloud(cloud_filtered);
 
 
   }
@@ -197,14 +197,14 @@ private:
   /*
    * SETUP PUBLISHERS
    */
-  // ros::Publisher object_pub;
-  // ros::Publisher position_pub;
+  ros::Publisher object_pub;
+  ros::Publisher position_pub;
 
   // ROS Subscriber
   ros::Subscriber point_cloud_sub_;
 
   // ROS Server for giving handles position
-  ros::ServiceServer position_server_ ;
+  // ros::ServiceServer position_server_ ;
 
 
   /* ========================================
@@ -413,7 +413,7 @@ private:
    * CONVERT POINTCLOUD PCL->ROS
    * PUBLISH CLOUD 
    * ========================================*/
-  /*
+ 
   void publishPointCloud(pcl::PointCloud<pcl::PointXYZ>::Ptr &input_cloud)
   {
     sensor_msgs::PointCloud2::Ptr pc2_cloud (new sensor_msgs::PointCloud2);
@@ -469,7 +469,7 @@ private:
    
   }
 
-  */
+  
 };
 
 

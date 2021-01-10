@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
 
   ros::init(argc, argv, "test_bt");
 
+  //ros::NodeHandle nodeHandle;
+
   ros::NodeHandle nh("~");
   std::string xml_filename;
 
@@ -26,7 +28,9 @@ int main(int argc, char **argv) {
 
   // We use the BehaviorTreeFactory to register our custom nodes
   BehaviorTreeFactory factory;
-  //Waiter waiter;
+  // Waiter waiter;
+
+  // waiter.init(MyNodeHandle);
 
   //factory.registerNodeType<MoveBase>("MoveBase");
 

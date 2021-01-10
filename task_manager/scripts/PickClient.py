@@ -15,7 +15,7 @@ def pick_client():
 
     
     rospy.loginfo("Waiting for target_position Server")
-    rospy.wait_for_service('get_position', timeout=15)
+    rospy.wait_for_service('get_position', timeout=5)
     res = get_position_client()
 
 

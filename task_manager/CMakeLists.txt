@@ -134,6 +134,11 @@ target_link_libraries(ptu_client_test ${catkin_LIBRARIES} )
 add_dependencies(ptu_client_test ${catkin_EXPORTED_TARGETS})
 
 
+add_executable(perception_client_test src/perception_client.cpp  )
+target_link_libraries(perception_client_test ${catkin_LIBRARIES} )
+add_dependencies(perception_client_test ${catkin_EXPORTED_TARGETS})
+
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use

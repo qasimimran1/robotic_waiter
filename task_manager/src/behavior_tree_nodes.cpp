@@ -5,6 +5,79 @@
 using namespace std; 
 
 
+
+
+//============================================
+BT::NodeStatus LookAtTray(void) {
+
+  PointPTU goal;
+  Waiter waiter;
+  goal.pan = 0.0;
+  goal.tilt = -0.7;
+  if (waiter.movePTU(goal))
+  {
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  } 
+  
+}
+//============================================
+BT::NodeStatus LookUp(void) {
+
+  PointPTU goal;
+  Waiter waiter;
+  goal.pan = 0.0;
+  goal.tilt = 0.0;
+  
+  if (waiter.movePTU(goal))
+  {
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }
+}
+//============================================
+
+BT::NodeStatus DetectHandles(void){
+
+  Waiter waiter;
+  if (waiter.detectTray())
+  {
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }  
+
+}
+
+
+//===================================================
+BT::NodeStatus GoToTable(void){
+  Pose2D goal;
+  Waiter waiter;
+  goal.x = 0.0;
+  goal.y = 0.0;
+  goal.theta = 0.0;
+  if(waiter.moveBase(goal)){
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }
+  
+}
+
+//==================================================
+
+
 // void RegisterNodes(BT::BehaviorTreeFactory& factory, Waiter& waiter) {
 //     factory.registerSimpleAction("lookAtTheTray", 
 //                                  std::bind(&Waiter::LookAt, &waiter));
@@ -119,39 +192,5 @@ using namespace std;
 
 
 
-//============================================
-BT::NodeStatus LookAtTray() {
 
-  PointPTU goal;
-  Waiter waiter;
-  goal.pan = 0.0;
-  goal.tilt = -0.7;
-  if (waiter.movePTU(goal))
-  {
-    return BT::NodeStatus::SUCCESS;
-  }
-  else
-  {
-    return BT::NodeStatus::FAILURE;
-  } 
-  
-}
-//============================================
-BT::NodeStatus LookUp() {
-
-  PointPTU goal;
-  Waiter waiter;
-  goal.pan = 0.0;
-  goal.tilt = 0.0;
-  
-  if (waiter.movePTU(goal))
-  {
-    return BT::NodeStatus::SUCCESS;
-  }
-  else
-  {
-    return BT::NodeStatus::FAILURE;
-  }
-}
-//============================================
 

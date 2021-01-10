@@ -6,16 +6,20 @@
 #include <task_manager/waiter.h>
 
 
-BT::NodeStatus LookAtTray();
-BT::NodeStatus LookUp();
+BT::NodeStatus LookAtTray(void);
+BT::NodeStatus LookUp(void);
+BT::NodeStatus DetectHandles(void);
+BT::NodeStatus GoToTable(void);
 
 //inline void RegisterNodes(BT::BehaviorTreeFactory& factory, Waiter& waiter){
 
 inline void RegisterNodes(BT::BehaviorTreeFactory& factory){    
 
     factory.registerSimpleAction("LookAtTheTray", std::bind(LookAtTray));
+    factory.registerSimpleAction("DetectHandles", std::bind(DetectHandles));
+    factory.registerSimpleAction("LookUp", std::bind(LookUp));
 
-    factory.registerSimpleAction("LookUp", std::bind(LookUp));                             
+    factory.registerSimpleAction("GoToTable", std::bind(LookUp));                             
 } 
 
 

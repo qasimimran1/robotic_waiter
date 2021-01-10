@@ -124,7 +124,7 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/task_manager_node.cpp)
 
-add_executable(task_manager_node src/main.cpp src/behavior_tree_nodes.cpp )
+add_executable(task_manager_node src/execute_tree.cpp src/behavior_tree_nodes.cpp src/waiter.cpp )
 target_link_libraries(task_manager_node ${catkin_LIBRARIES} )
 add_dependencies(task_manager_node ${catkin_EXPORTED_TARGETS})
 

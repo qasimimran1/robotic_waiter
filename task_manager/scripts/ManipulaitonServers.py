@@ -226,7 +226,7 @@ class GraspingClient(object):
     # wpose.orientation.w = q[3]
 
     print ("wpose.position.z" ,wpose.position.z)
-    wpose.position.z -= 0.060  # move down in (z)
+    wpose.position.z -= 0.0580  # move down in (z)
     print ("wpose.position.z after" ,wpose.position.z)
     waypoints.append(deepcopy(wpose))
     (plan1, fraction) = self.right_arm.compute_cartesian_path(
@@ -348,7 +348,7 @@ class PickAction(object):
         rospy.loginfo('Action %s: Succeeded' % self._action_name)
         self._as.set_succeeded(self._result)
       elif status == 'FAILURE':
-        self._feedback.status = 2
+        self._feedback.status = 0
         self._result.status = self._feedback.status
         rospy.loginfo('Action %s: Failed' % self._action_name)
         self._as.set_succeeded(self._result)
@@ -415,7 +415,7 @@ class PlaceAction(object):
         rospy.loginfo('Action %s: Succeeded' % self._action_name)
         self._as.set_succeeded(self._result)
       elif status == 'FAILURE':
-        self._feedback.status = 2
+        self._feedback.status = 0
         self._result.status = self._feedback.status
         rospy.loginfo('Action %s: Failed' % self._action_name)
         self._as.set_succeeded(self._result)

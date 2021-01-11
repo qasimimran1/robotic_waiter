@@ -1,6 +1,6 @@
 <launch>
   
-  <arg name="map_file" default="$(find phoebe_navigation)/maps/cafe_map.yaml"/>  <!-- cafe_map.yaml my_cafe_map.yaml -->
+  <arg name="map_file" default="$(find phoebe_navigation)/maps/my_cafe_map.yaml"/>  <!-- cafe_map.yaml my_cafe_map.yaml -->
   <!-- <arg name="map_file" default="$(find phoebe_navigation)/maps/willow_garage_map.yaml"/> -->
   <arg name="open_rviz" default="true"/>
   

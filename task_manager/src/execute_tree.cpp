@@ -21,7 +21,9 @@ int main(int argc, char **argv) {
 
   // xml_filename = "/home/qasim/catkin_ws/src/robotic_waiter/task_manager/trees/Phoebe_waiter.xml";
 
-  xml_filename = "/home/qasim/catkin_ws/src/robotic_waiter/task_manager/trees/testTree.xml";
+  // xml_filename = "/home/qasim/catkin_ws/src/robotic_waiter/task_manager/trees/testTree.xml";
+
+  xml_filename = "/home/qasim/catkin_ws/src/robotic_waiter/task_manager/trees/navTree.xml";
 
   // nh.param<std::string>("file", xml_filename, "/home/qasim/catkin_ws/src/behavior_tree_sample/bt_xml/bt_nav_lab.xml");
   // ROS_INFO("Loading XML : %s", xml_filename.c_str());

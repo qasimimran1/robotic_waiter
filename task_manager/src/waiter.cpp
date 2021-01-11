@@ -1,6 +1,6 @@
 #include <task_manager/waiter.h>
 
-
+//=======================================================
 // void Waiter::init(ros::NodeHandle &nh) {
 
 //     MyNodeHandle = &nh;
@@ -8,31 +8,24 @@
 //    // ROS_WARN("Waiter Initialized");
 // }
 
-
+//=======================================================
 bool Waiter::movePTU(PointPTU&  goal) {
-
-  if (!_ptuClient.waitForServer(ros::Duration(2.0))) {
+  if (!_ptuClient.waitForServer(ros::Duration(10.0))) {
     ROS_ERROR("Can't contact PTU server");
     return false;
-  }  
-
+  }
   ROS_INFO("Sending goal %f %f", goal.pan, goal.tilt);
 
   // Build the message from PointPTU
   task_manager::PTUGoal msg;
   msg.joint_values[0] = goal.pan;    //goal.pan; 
-  msg.joint_values[1] = goal.tilt;     //goal.tilt; 
-  
+  msg.joint_values[1] = goal.tilt;     //goal.tilt;  
   
   _ptuClient.sendGoal(msg);
-  
 
-
-  while (!_ptuClient.waitForResult(ros::Duration(0.02))) {
+  while (ros::ok() &&(!_ptuClient.waitForResult(ros::Duration(0.02)))) {
     // polling at 50 Hz. No big deal in terms of CPU
   }
-
-
   if (_ptuClient.getState() != actionlib::SimpleClientGoalState::SUCCEEDED) {
     ROS_ERROR("MovePTU failed");
     return false;
@@ -40,17 +33,56 @@ bool Waiter::movePTU(PointPTU&  goal) {
 
   ROS_INFO("PTU Pointed");
   return true;
-
 }
+//=======================================================
+bool Waiter::detectTray(void){
+    ros::NodeHandle nh;
+    ros::ServiceClient _perceptionClient = nh.serviceClient<phoebe_perception::target_position>("get_position");
+    phoebe_perception::target_position srv;
 
+    ROS_INFO("Detecting Handles");
+   if(_perceptionClient.call(srv)){
+        _leftHandle = srv.response.points[0];
+        _rightHandle = srv.response.points[1];
+       // ROS_WARN("left_handle: %f right_handle: %f", _left_handle.x, _right_handle.x);
+        return true;
+    }else
+    {
+        ROS_ERROR("Failed to Call Service");
+        return false;
+    }    
+}
+//=======================================================
+bool Waiter::pickTray(void){
+
+    if (!_pickClient.waitForServer(ros::Duration(10.0))) {
+    ROS_ERROR("Can't contact Pick server");
+    return false;
+  }
+  // Build the message from PickGoal
+  task_manager::PickGoal msg;
+  msg.handles[0] = _leftHandle;    //left; 
+  msg.handles[1] = _rightHandle;     //right;
+  
+  _pickClient.sendGoal(msg);
+  while (ros::ok() && (!_pickClient.waitForResult(ros::Duration(0.02)))) {
+    // polling at 50 Hz. No big deal in terms of CPU
+  }
+  if (_pickClient.getState() != actionlib::SimpleClientGoalState::SUCCEEDED) {
+    ROS_ERROR("Tray Pick failed");
+    return false;
+  }
+  ROS_INFO("Tray Picked");
+  return true;
+}
+//=======================================================
 void Waiter::moveAbort(void){
   _move_aborted = true;  
 }
-
-
+//=======================================================
 bool Waiter::moveBase(Pose2D& goal ){
   // if no server is present, fail after 2 seconds
-  if (!_moveBaseClient.waitForServer(ros::Duration(2.0))) {
+  if (!_moveBaseClient.waitForServer(ros::Duration(10.0))) {
     ROS_ERROR("Can't contact move_base server");
     return false;
   }  
@@ -71,13 +103,13 @@ bool Waiter::moveBase(Pose2D& goal ){
 
   _moveBaseClient.sendGoal(msg);
 
-  while (!_move_aborted && !_moveBaseClient.waitForResult(ros::Duration(0.02))) {
+  while (ros::ok() &&(!_move_aborted && !_moveBaseClient.waitForResult(ros::Duration(0.02)))) {
     // polling at 50 Hz. No big deal in terms of CPU
   }
 
   if (_move_aborted) {
     // this happens only if method halt() was invoked
-    //_client.cancelAllGoals();
+    _moveBaseClient.cancelAllGoals();
     ROS_ERROR("MoveBase aborted");
     return false;
   }
@@ -89,27 +121,68 @@ bool Waiter::moveBase(Pose2D& goal ){
 
   ROS_INFO("Target reached");
   return true;
-
 }
-
 //=======================================================
+bool Waiter::placeTray(void){
+    if (!_placeClient.waitForServer(ros::Duration(10.0))) {
+    ROS_ERROR("Can't contact Pick server");
+    return false;  } 
 
-bool Waiter::detectTray(void){
-    ros::NodeHandle nh;
-    ros::ServiceClient _perceptionClient = nh.serviceClient<phoebe_perception::target_position>("get_position");
-    phoebe_perception::target_position srv;
+    task_manager::PlaceGoal msg;
+    msg.dummy = 1;    //dummy data for goal; 
+  
+    _placeClient.sendGoal(msg); // placeAction needs no goal for now, so sending dummy data
 
-    ROS_INFO("Detecting Handles");
-   if(_perceptionClient.call(srv)){
-        _left_handle = srv.response.points[0];
-        _right_handle = srv.response.points[1];
-       // ROS_WARN("left_handle: %f right_handle: %f", _left_handle.x, _right_handle.x);
-        return true;
-    }else
-    {
-        ROS_ERROR("Failed to Call Service");
+    while (!_placeClient.waitForResult(ros::Duration(0.02))) {
+        // polling at 50 Hz. No big deal in terms of CPU
+    }
+
+    if (_placeClient.getState() != actionlib::SimpleClientGoalState::SUCCEEDED) {
+        ROS_ERROR("Tray Pick failed");
         return false;
     }
-    
+
+    ROS_INFO("Tray Picked");
+    return true;
 }
 //=======================================================
+
+// bool  Waiter::moveBackwards(double distance, ros::Duration duration) {
+
+//     ros::NodeHandle nh;
+//     // Advertize the publisher on the topic
+//     ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/wheels_controller/cmd_vel",1000);
+//     ros::Duration(0.1).sleep(); // sleep for half a second
+//     geometry_msgs::Twist twist;
+//     twist.linear.x = -(distance/duration.toSec());
+
+//     ros::Time beginTime = ros::Time::now();
+//     ros::Duration secondsIWantToSendMessagesFor = duration;
+//     ros::Time endTime = beginTime + secondsIWantToSendMessagesFor;
+//     while (ros::Time::now() < endTime ) {
+//         pub.publish(twist);
+//         ros::Duration(0.1).sleep();
+//     }
+//     return true;
+// }
+
+//=======================================================
+
+bool Waiter::moveRobot(double distance, ros::Duration duration, int direction){ // dir 1 = forward, -1 = backward
+
+    ros::NodeHandle nh;
+    // Advertize the publisher on the topic
+    ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/wheels_controller/cmd_vel",1000);
+    ros::Duration(0.1).sleep(); // sleep for half a second
+    geometry_msgs::Twist twist;
+    twist.linear.x = direction*(distance/duration.toSec());
+
+    ros::Time beginTime = ros::Time::now();
+    ros::Duration secondsIWantToSendMessagesFor = duration;
+    ros::Time endTime = beginTime + secondsIWantToSendMessagesFor;
+    while (ros::Time::now() < endTime ) {
+        pub.publish(twist);
+        ros::Duration(0.1).sleep();
+    }
+    return true;
+}

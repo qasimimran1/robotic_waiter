@@ -8,7 +8,7 @@ using namespace std;
 
 
 //============================================
-BT::NodeStatus LookAtTray(void) {
+BT::NodeStatus lookAtTray(void) {
 
   PointPTU goal;
   Waiter waiter;
@@ -25,7 +25,7 @@ BT::NodeStatus LookAtTray(void) {
   
 }
 //============================================
-BT::NodeStatus LookUp(void) {
+BT::NodeStatus lookUp(void) {
 
   PointPTU goal;
   Waiter waiter;
@@ -43,7 +43,7 @@ BT::NodeStatus LookUp(void) {
 }
 //============================================
 
-BT::NodeStatus DetectHandles(void){
+BT::NodeStatus detectHandles(void){
 
   Waiter waiter;
   if (waiter.detectTray())
@@ -59,14 +59,18 @@ BT::NodeStatus DetectHandles(void){
 
 
 //===================================================
-BT::NodeStatus GoToTable(void){
+BT::NodeStatus goToTable(void){
   Pose2D goal;
   Waiter waiter;
-  goal.x = 0.0;
-  goal.y = 0.0;
-  goal.theta = 0.0;
+  goal.x = -3.0;
+  goal.y = -7.43; //8.45
+  goal.theta = -1.5708;
   if(waiter.moveBase(goal)){
-    return BT::NodeStatus::SUCCESS;
+    if (waiter.moveRobot(1.0, (ros::Duration)2.0, 1))
+    {
+      return BT::NodeStatus::SUCCESS;
+    }    
+    
   }
   else
   {
@@ -77,7 +81,52 @@ BT::NodeStatus GoToTable(void){
 
 //==================================================
 
+BT::NodeStatus pickTray(void){
 
+  Waiter waiter;
+  
+  if(waiter.pickTray()){
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }
+
+
+}
+
+
+//==================================================
+BT::NodeStatus placeTray(void){
+
+  Waiter waiter;
+  
+  if(waiter.placeTray()){
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }
+
+
+}
+//==================================================
+
+BT::NodeStatus moveBack(void) {
+  Waiter waiter;
+ 
+  if(waiter.moveRobot(1.0, (ros::Duration)2.0, -1)){
+    return BT::NodeStatus::SUCCESS;
+  }
+  else
+  {
+    return BT::NodeStatus::FAILURE;
+  }
+}
+
+//==================================================
 // void RegisterNodes(BT::BehaviorTreeFactory& factory, Waiter& waiter) {
 //     factory.registerSimpleAction("lookAtTheTray", 
 //                                  std::bind(&Waiter::LookAt, &waiter));

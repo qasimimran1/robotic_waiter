@@ -1,7 +1,7 @@
 #goal definition
 geometry_msgs/Point[2] handles
 ---
-#result definition RUNNING = 0, SUCCESS = 1, FAILURE = 2
+#result definition  SUCCESS = 1, FAILURE = 0
 int32 status
 ---
 #feedback

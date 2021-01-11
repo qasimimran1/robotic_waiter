@@ -20,6 +20,7 @@ class FollowTrajectoryClient(object):
     rospy.loginfo("Waiting for %s..." % name)
     self.client.wait_for_server()
     self.joint_names = joint_names
+    rospy.loginfo("Controller Connected")
 
   def move_to(self, positions, duration=5.0):
     if len(self.joint_names) != len(positions):
@@ -109,6 +110,6 @@ class PTUAction(object):
 
 
 if __name__ == '__main__':
-  rospy.init_node('ptu_action')
-  PTUAction(rospy.get_name())
+  rospy.init_node('ptu_server')
+  PTUAction('ptu_action')
   rospy.spin()

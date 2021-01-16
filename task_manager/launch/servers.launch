@@ -3,7 +3,7 @@
 
   
   <!-- Start Navigation Stack -->
-  <!-- <include file="$(find phoebe_navigation)/launch/phoebe_navigation.launch"/> -->
+  <include file="$(find phoebe_navigation)/launch/phoebe_navigation.launch"/>
   
   <!-- Start Perception Server. It provides the location of handles -->
   <node name="perception" pkg="phoebe_perception" type="perception_node" output="screen" /> 

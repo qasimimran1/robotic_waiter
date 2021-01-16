@@ -15,7 +15,7 @@ import task_manager.msg
 
 
 
-
+# ============================================================
 class GraspingClient(object):
 
   def __init__(self):
@@ -33,7 +33,7 @@ class GraspingClient(object):
     
     # self.done_r = False
 
-
+# ============================================================
   def get_dual_trajectory(self, r_joints):  #this method takes trajectory of righ arm and maps it for left arm inverting the mirror joints
     l_joints = []
     pos = 1
@@ -49,7 +49,7 @@ class GraspingClient(object):
       
     return d_joints   
 
-
+# ============================================================
   def get_translations(self, current_pos):
     ideal_x     = 0.515000 #0.515
     ideal_y     = 0.250500
@@ -61,7 +61,7 @@ class GraspingClient(object):
     trans.z     = current_pos.z - ideal_z
     
     return trans
-
+# ============================================================
   def dual_arm_set_named_target(self, named_target):
     self.dual_arm_group.set_named_target(named_target)
     plan1 = self.dual_arm_group.plan()
@@ -71,15 +71,21 @@ class GraspingClient(object):
     return move_success
     # print "...Both Done..."
     # rospy.sleep(1)
+# ============================================================
+  def grippers_set_state(self,named_target ):
+    # Open the gripper to the full position
+    self.grippers.set_named_target(named_target) 
+    self.grippers.plan()
+    move_success = self.grippers.go()
+    return move_success
+# ============================================================
+  def goto_pre_grasp(self, res):
 
-
-  def pick_tray(self, res):
-    self.dual_arm_set_named_target("both_home")
-    
     # rospy.wait_for_service('get_position', timeout=5)
     # res = self.get_position_client()
     # left_handle = res.points[0]
     # right_handle = res.points[1]
+    move_success = False
     left_handle = res.handles[0]
     right_handle = res.handles[1]
 
@@ -126,96 +132,111 @@ class GraspingClient(object):
 
       if (plan2.joint_trajectory.points) :
         move_success = self.dual_arm_group.execute(plan2, wait = True)
-
-        if move_success == True:
-          rospy.sleep(2)
-          self.right_arm.set_start_state_to_current_state()
-          self.left_arm.set_start_state_to_current_state()
-          waypoints_l =[]
-          waypoints = []
-          wpose = self.right_arm.get_current_pose().pose
-          wpose_l = self.left_arm.get_current_pose().pose
-          print("wpose", wpose)
-          # Open the gripper to the full position
-          self.grippers.set_named_target("both_open")
-          self.grippers.plan()
-          self.grippers.go()
-        # Create Cartesian Path to move forward mainting the end-effector pose
-        
-          if(translation.x >= 0.0505 and translation.x <= 0.0535 ):
-            wpose.position.x    += (translation.x + 0.000)  # move forward in (x)
-            wpose_l.position.x  += (translation.x + 0.002)
-            wpose_l.position.z  += 0.001
-        
-          else:
-            wpose.position.x    += 0.0525  # move forward in (x)
-            wpose_l.position.x  += 0.054
-            wpose_l.position.z  += 0.001
-
-          waypoints.append(deepcopy(wpose))
-          (plan1, fraction) = self.right_arm.compute_cartesian_path(
-                                waypoints,   # waypoints to follow
-                                0.01,        # eef_step
-                                0.0)
-
-
-          waypoints_l.append(deepcopy(wpose_l))
-          (plan_l, fraction) = self.left_arm.compute_cartesian_path(
-                                waypoints_l,   # waypoints to follow
-                                0.01,        # eef_step
-                                0.0)
-        
-        
-          rospy.sleep(1)
-          if plan1.joint_trajectory.points:
-            move_success = self.right_arm.execute(plan1, wait=True)
-            if move_success == True:
-              rospy.loginfo ("Right Move forward successful")
-            
-
-          if plan_l.joint_trajectory.points:
-            move_success_l = self.left_arm.execute(plan_l, wait=True)
-            if move_success_l == True:
-              rospy.loginfo ("Left Move forward successful")
-            # done_r = True
-
-          if move_success == True and move_success_l == True:
-            rospy.sleep(1)
-            self.grippers.set_named_target("both_close")
-            self.grippers.plan()
-            self.grippers.go()
-            # rospy.sleep(1)
-
-            waypoints = []
-            rospy.sleep(1)
-            wpose = self.right_arm.get_current_pose().pose
-            # q = quaternion_from_euler(-1.57, 1.57, -1.57) # wrist up 5 degrees = 1.66 10deg = 1.75
-            # wpose.orientation.x = q[0]
-            # wpose.orientation.y = q[1]
-            # wpose.orientation.z = q[2]
-            # wpose.orientation.w = q[3]
-            wpose.position.z += 0.075  # move up in (z)
-            waypoints.append(deepcopy(wpose))
-            (plan1, fraction) = self.right_arm.compute_cartesian_path(
-                                waypoints,   # waypoints to follow
-                                0.01,        # eef_step
-                                0.0)
-
-            if plan1.joint_trajectory.points:
-
-              r_joints = plan1.joint_trajectory.points[-1].positions                          
-              d_joints = self.get_dual_trajectory(r_joints)                
-              self.dual_arm_group.set_joint_value_target(d_joints)                
-              plan2 = self.dual_arm_group.plan()
-              if (plan2.joint_trajectory.points) :
-                move_success = self.dual_arm_group.go()
-                print("move_success", move_success)
-                return move_success
-
+    return move_success
+# ============================================================
+  def grasp_tray(self, res):
+    rospy.sleep(2)
+    move_success = False
+    self.right_arm.set_start_state_to_current_state()
+    self.left_arm.set_start_state_to_current_state()
+    waypoints_l =[]
+    waypoints = []
+    wpose = self.right_arm.get_current_pose().pose
+    wpose_l = self.left_arm.get_current_pose().pose
+    print("wpose", wpose)
+    right_handle = res.handles[1]
+    translation = self.get_translations(right_handle)
     
+  # Create Cartesian Path to move forward mainting the end-effector pose
+  
+    if(translation.x >= 0.0505 and translation.x <= 0.0535 ):
+      wpose.position.x    += (translation.x + 0.000)  # move forward in (x)
+      wpose_l.position.x  += (translation.x + 0.002)
+      wpose_l.position.z  += 0.001
+      print("translation cond")
+    else:
+      wpose.position.x    += 0.0535  # move forward in (x)
+      wpose_l.position.x  += 0.054
+      wpose_l.position.z  += 0.001
+      print("fixed cond")
 
+    waypoints.append(deepcopy(wpose))
+    (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                          waypoints,   # waypoints to follow
+                          0.01,        # eef_step
+                          0.0)
+
+
+    waypoints_l.append(deepcopy(wpose_l))
+    (plan_l, fraction) = self.left_arm.compute_cartesian_path(
+                          waypoints_l,   # waypoints to follow
+                          0.01,        # eef_step
+                          0.0)
+  
+  
+    rospy.sleep(1)
+    if plan1.joint_trajectory.points:
+      move_success = self.right_arm.execute(plan1, wait=True)
+      if move_success == True:
+        rospy.loginfo ("Right Move forward successful")
       
 
+    if plan_l.joint_trajectory.points:
+      move_success_l = self.left_arm.execute(plan_l, wait=True)
+      if move_success_l == True:
+        rospy.loginfo ("Left Move forward successful")
+      # done_r = True
+    return move_success, move_success_l
+#=======================================================
+  def lift_up(self):
+    move_success = False
+    waypoints = []
+    rospy.sleep(1)
+    wpose = self.right_arm.get_current_pose().pose
+    # q = quaternion_from_euler(-1.57, 1.57, -1.57) # wrist up 5 degrees = 1.66 10deg = 1.75
+    # wpose.orientation.x = q[0]
+    # wpose.orientation.y = q[1]
+    # wpose.orientation.z = q[2]
+    # wpose.orientation.w = q[3]
+    wpose.position.z += 0.075  # move up in (z)
+    waypoints.append(deepcopy(wpose))
+    (plan1, fraction) = self.right_arm.compute_cartesian_path(
+                        waypoints,   # waypoints to follow
+                        0.01,        # eef_step
+                        0.0)
+
+    if plan1.joint_trajectory.points:
+
+      r_joints = plan1.joint_trajectory.points[-1].positions                          
+      d_joints = self.get_dual_trajectory(r_joints)                
+      self.dual_arm_group.set_joint_value_target(d_joints)                
+      plan2 = self.dual_arm_group.plan()
+      if (plan2.joint_trajectory.points) :
+        move_success = self.dual_arm_group.go()
+        print("move_success", move_success)
+    return move_success
+
+
+#==========================================================
+  def pick_tray(self, res):
+    self.dual_arm_set_named_target("both_home")
+    move_success = False
+    move_success = self.goto_pre_grasp(res)    
+    if move_success == True:
+      move_success= self.grippers_set_state("both_open")
+      if move_success == True:
+        move_success,move_success_l=  self.grasp_tray(res)
+        if move_success == True and move_success_l == True:
+            rospy.sleep(0.5)
+            move_success = self.grippers_set_state("both_close")
+            if move_success == True:
+              move_success = self.lift_up()
+
+
+    return move_success    
+            
+
+#==========================================================
   def place_tray(self):
     waypoints = []    
     wpose = self.right_arm.get_current_pose().pose
@@ -226,7 +247,7 @@ class GraspingClient(object):
     # wpose.orientation.w = q[3]
 
     print ("wpose.position.z" ,wpose.position.z)
-    wpose.position.z -= 0.0580  # move down in (z)
+    wpose.position.z -= 0.060  # move down in (z)
     print ("wpose.position.z after" ,wpose.position.z)
     waypoints.append(deepcopy(wpose))
     (plan1, fraction) = self.right_arm.compute_cartesian_path(
@@ -245,17 +266,16 @@ class GraspingClient(object):
         move_success = self.dual_arm_group.go()
         print("move_success", move_success)
 
-        self.grippers.set_named_target("both_open")
-        self.grippers.plan()
-        self.grippers.go()
+        self.grippers_set_state("both_open")
+        
 
         waypoints_l =[]
         waypoints   = []
         wpose   = self.right_arm.get_current_pose().pose
         wpose_l = self.left_arm.get_current_pose().pose
 
-        wpose.position.x    -= 0.05  # move backward in (x)
-        wpose_l.position.x  -= 0.05
+        wpose.position.x    -= 0.054  # move backward in (x)
+        wpose_l.position.x  -= 0.054
         # wpose_l.position.z  += 0.001
 
         waypoints.append(deepcopy(wpose))

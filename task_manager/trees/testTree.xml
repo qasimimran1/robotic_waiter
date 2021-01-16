@@ -13,8 +13,8 @@
                     <Action ID="PickTray"/>
                     <Action ID="LookUp"/>
                     <Action ID="MoveBack"/>
-                    <Action ID="GoToTable"/> 
-                    <Action ID="PlaceTray"/>                    
+                    <Action ID="GoToTable"/>
+                    <Action ID="PlaceTray"/>                     
                 </Sequence>            
         </Repeat>
     </BehaviorTree>

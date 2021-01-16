@@ -59,6 +59,21 @@ bool Waiter::pickTray(void){
     ROS_ERROR("Can't contact Pick server");
     return false;
   }
+  //  lf.x =  0.57 #1.778
+  //   lf.y =  0.222 #5.95
+  //   lf.z = 0.6905
+    
+  //   rt.x =  0.57 #2.222
+  //   rt.y = -0.222  #5.95
+  //   rt.z = 0.6905
+  _leftHandle.x = 0.515;
+  _leftHandle.y = 0.2505;
+  _leftHandle.z = 0.713;
+
+  _rightHandle.x =  0.515;
+  _rightHandle.y = -0.24;
+  _rightHandle.z =  0.69;
+
   // Build the message from PickGoal
   task_manager::PickGoal msg;
   msg.handles[0] = _leftHandle;    //left; 

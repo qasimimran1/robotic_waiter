@@ -45,15 +45,18 @@ BT::NodeStatus lookUp(void) {
 
 BT::NodeStatus detectHandles(void){
 
-  Waiter waiter;
-  if (waiter.detectTray())
-  {
-    return BT::NodeStatus::SUCCESS;
-  }
-  else
-  {
-    return BT::NodeStatus::FAILURE;
-  }  
+  //Waiter waiter; 
+
+  // if (waiter.detectTray())
+  // {
+  //   return BT::NodeStatus::SUCCESS;
+  // }
+  // else
+  // {
+  //   return BT::NodeStatus::FAILURE;
+  // }
+  ros::Duration(1.0).sleep();
+  return BT::NodeStatus::SUCCESS;  
 
 }
 
